@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640" fill="none">
-  <title>Oficina de palavras</title>
+  <title>Quiz de Português</title>
   <desc>Uma pequena prensa tipográfica, letras de madeira e um livro aberto sobre uma bancada.</desc>
   <defs>
     <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse"><path d="m-2 8 10-10M6 10l4-4" stroke="#93b3b4" stroke-opacity=".16" stroke-width="1"/></pattern>
@@ -47,7 +47,7 @@
   <g transform="translate(403 496) rotate(18)"><path d="M0 0h16v64L8 82 0 64Z" fill="#dfbc6d" stroke="#15384a" stroke-width="3"/><path d="M0 0v-13h16V0" fill="#bb7057" stroke="#15384a" stroke-width="3"/><path d="m2 65 6 17 6-17" fill="#f7e8c0" stroke="#15384a" stroke-width="2"/><path d="M8 6v52" stroke="#a08044" stroke-width="2"/></g>
   <path d="M72 564h494" stroke="#87a69e" stroke-width="2"/>
   <path d="M72 571h113m270 0h111" stroke="#87a69e" stroke-opacity=".4"/>
-  <g fill="#d9bd7f" font-family="Georgia,serif" font-size="12" letter-spacing="4"><text x="320" y="604" text-anchor="middle">OFICINA DE PALAVRAS</text></g>
+  <g fill="#d9bd7f" font-family="Georgia,serif" font-size="12" letter-spacing="4"><text x="320" y="604" text-anchor="middle">QUIZ DE PORTUGUÊS</text></g>
   <style>
     @media(prefers-reduced-motion:no-preference) {
       .printed-sheet { animation:print-arrival 800ms cubic-bezier(.22,1,.36,1) both; }

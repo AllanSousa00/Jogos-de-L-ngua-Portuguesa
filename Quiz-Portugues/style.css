@@ -1015,7 +1015,7 @@ body.is-modal-open {
   }
 }
 
-/* Oficina de palavras — identidade editorial, mantendo o azul e amarelo originais. */
+/* Identidade editorial do quiz, mantendo o azul e amarelo originais. */
 body[data-theme="light"] {
   --bg: #f3ead5;
   --fg: #233c47;
@@ -1910,7 +1910,7 @@ summary:focus-visible {
   backdrop-filter: none;
 }
 
-/* Oficina de palavras: margem de caderno e fichas tipográficas. */
+/* Margem de caderno e fichas tipográficas do quiz. */
 .screen-shell--quiz {
   position: relative;
 }
@@ -2043,22 +2043,9 @@ summary:focus-visible {
   }
 }
 
-/* A oficina abre como uma página impressa; o resultado encerra com um ex-líbris. */
+/* A abertura lembra uma página impressa; o resultado encerra com um ex-líbris. */
 .cover-kicker {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-.workshop-number {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 38px;
-  border: 1px solid currentColor;
-  font:
-    italic 22px Georgia,
-    serif;
-  letter-spacing: -0.08em;
+  letter-spacing: 0.12em;
 }
 .quiz-cover-art img {
   filter: none;
@@ -2081,14 +2068,6 @@ summary:focus-visible {
   transform: rotate(8deg);
 }
 @media (max-width: 760px) {
-  .cover-kicker {
-    justify-content: center;
-  }
-  .workshop-number {
-    width: 26px;
-    height: 30px;
-    font-size: 18px;
-  }
   .screen[data-screen="result"] .result-highlight {
     padding-inline: 22px;
     padding-top: 92px;
@@ -2101,14 +2080,6 @@ summary:focus-visible {
     right: auto;
   }
 }
-@media (min-width: 761px) and (max-height: 640px) {
-  .workshop-number {
-    width: 24px;
-    height: 28px;
-    font-size: 17px;
-  }
-}
-
 /* Folha de ajustes: agrupamentos curtos em vez de uma lista extensa. */
 .screen-shell--settings {
   width: min(980px, 100%);
@@ -2346,7 +2317,7 @@ body[data-theme="dark"] .teacher-panel--bank {
   scroll-padding-bottom: 20px;
 }
 
-/* A assinatura da oficina permanece no caderno durante a partida. */
+/* A assinatura do quiz permanece no caderno durante a partida. */
 .quiz-page-heading {
   display: grid;
   gap: 4px;
