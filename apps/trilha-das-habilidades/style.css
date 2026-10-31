@@ -6191,7 +6191,7 @@ body.high-contrast[data-theme="dark"] .board .tile.is-current {
   }
 }
 
-/* O bilhete da expedição compartilha a linguagem impressa do portal. */
+/* A abertura da trilha usa uma identificação direta e legível. */
 .start-card,
 body[data-theme="dark"] .start-card {
   border-radius: 3px 18px 18px 3px;
@@ -6200,23 +6200,8 @@ body[data-theme="dark"] .start-card {
     6px 6px 0 var(--line);
 }
 .start-card > .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
   color: var(--primary);
   letter-spacing: 0.13em;
-}
-.expedition-number {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 40px;
-  border: 1px solid currentColor;
-  border-radius: 2px;
-  font:
-    italic 22px Georgia,
-    serif;
-  letter-spacing: -0.08em;
 }
 .start-card > .start-subtitle {
   border-top: 1px dashed var(--line);
@@ -6251,14 +6236,6 @@ body[data-theme="dark"] .start-card {
   transform: translate(2px, -2px);
 }
 @media (max-width: 760px) {
-  .start-card > .eyebrow {
-    justify-content: center;
-  }
-  .expedition-number {
-    width: 26px;
-    height: 30px;
-    font-size: 18px;
-  }
   .start-card > .start-subtitle {
     padding-top: 12px;
     font-size: 16px;
@@ -6696,11 +6673,6 @@ body.high-contrast .board .tile.is-complete .tile-number::before {
   .start-card > .eyebrow {
     margin-top: 4px;
     font-size: 10px;
-  }
-  .expedition-number {
-    width: 24px;
-    height: 28px;
-    font-size: 17px;
   }
   .start-card > h1 {
     font-size: 30px;
