@@ -6,7 +6,7 @@
   src: url("./fonts/baloo2-latin.woff2") format("woff2");
 }
 :root {
-  --page-max-width: 1366px;
+  --page-max-width: 1760px;
   --button-bg: #3aa0d8;
   --button-shadow: #1f7ab0;
   --button-shadow-soft: rgba(0, 0, 0, 0.18);
@@ -1377,7 +1377,7 @@ h1:focus,
     gap: 12px;
   }
 }
-@media (max-height: 550px) and (orientation: landscape) {
+@media (max-height: 640px) and (orientation: landscape) {
   .screen-shell--home {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto auto;
@@ -2577,5 +2577,30 @@ body[data-theme="light"] .summary-status.is-wrong {
   .screen-shell--quiz {
     min-height: calc(100dvh - var(--safe-top) - var(--safe-bottom));
     align-content: safe center;
+  }
+}
+
+@media (max-width: 360px) {
+  .menu-button--home {
+    justify-content: center;
+    gap: 6px;
+    padding-inline: 6px;
+    --button-font-size: 14px;
+  }
+
+  .menu-button--home .icon-badge {
+    width: 34px;
+    height: 34px;
+  }
+
+  .menu-button--home .menu-button__label {
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+}
+
+@media (max-height: 740px) and (orientation: landscape) {
+  .title-block--home {
+    margin-top: clamp(0.5rem, 4dvh, 2rem);
   }
 }

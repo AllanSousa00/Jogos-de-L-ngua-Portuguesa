@@ -10,6 +10,8 @@ const viewports = [
   { name: "tablet", width: 768, height: 1024 },
   { name: "small-laptop", width: 1024, height: 768 },
   { name: "laptop", width: 1366, height: 768 },
+  { name: "compact-landscape", width: 1366, height: 600 },
+  { name: "wide-browser", width: 1920, height: 900 },
   { name: "wide-desktop", width: 1920, height: 1080 },
   { name: "ultrawide", width: 2560, height: 1440 }
 ];
@@ -192,6 +194,23 @@ for (const viewport of viewports) {
         "#question-total-label",
         ".menu-grid--home"
       ]);
+      if (viewport.width <= 360) {
+        const homeLabels = await page
+          .locator(".menu-grid--home > .menu-button--home .menu-button__label")
+          .evaluateAll((labels) =>
+            labels.map((label) => ({
+              clientWidth: label.clientWidth,
+              scrollWidth: label.scrollWidth,
+              height: label.getBoundingClientRect().height,
+              lineHeight: parseFloat(getComputedStyle(label).lineHeight)
+            }))
+          );
+        expect(homeLabels).toHaveLength(2);
+        for (const label of homeLabels) {
+          expect(label.scrollWidth).toBeLessThanOrEqual(label.clientWidth + 1);
+          expect(label.height).toBeLessThanOrEqual(label.lineHeight + 1);
+        }
+      }
       await capture(page, testInfo, "quiz-inicio");
 
       await page.locator("#start-button").click();
@@ -205,16 +224,16 @@ for (const viewport of viewports) {
       await page.locator('#options-list button[data-index="0"]').click();
       await expect(page.locator("#feedback-panel")).toBeVisible();
       await page.waitForTimeout(120);
-      const viewport = page.viewportSize();
+      const activeViewport = page.viewportSize();
       if (
-        (viewport.width >= 761 && viewport.height >= 641) ||
-        (viewport.width <= 760 && viewport.height >= 760)
+        (activeViewport.width >= 761 && activeViewport.height >= 641) ||
+        (activeViewport.width <= 760 && activeViewport.height >= 760)
       ) {
         const balance = await page.locator(".quiz-stage").evaluate((stage) => {
           const rect = stage.getBoundingClientRect();
           return Math.abs(rect.top - (window.innerHeight - rect.bottom));
         });
-        expect(balance).toBeLessThan(viewport.width <= 760 ? 24 : 10);
+        expect(balance).toBeLessThan(activeViewport.width <= 760 ? 24 : 10);
       }
       await page.locator("#next-button").scrollIntoViewIfNeeded();
       await expectElementsInsideViewport(page, ["#feedback-panel", "#next-button"]);

@@ -933,3 +933,228 @@ h1 {
     padding: 10px 14px;
   }
 }
+
+/* A pagina ocupa o espaco disponivel e escala suavemente entre telas. */
+:root {
+  --portal-content-max: 1760px;
+  --portal-gutter: clamp(12px, 4vw, 72px);
+  --portal-header-height: clamp(52px, 7.5svh, 90px);
+}
+
+.header-container {
+  padding-inline: var(--portal-gutter);
+}
+
+.site-header {
+  width: min(100%, var(--portal-content-max));
+  max-width: none;
+  min-height: var(--portal-header-height);
+}
+
+.portal-main {
+  width: min(var(--portal-content-max), calc(100% - 2 * var(--portal-gutter)));
+  padding-block: clamp(12px, 3.5svh, 56px) clamp(10px, 2svh, 28px);
+  gap: clamp(12px, 2.5svh, 32px) clamp(16px, 3.5vw, 64px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+.game-options {
+  gap: clamp(10px, 1.5vw, 24px);
+}
+
+.game-cover {
+  height: clamp(64px, 14svh, 152px);
+}
+
+.game-card-content {
+  gap: clamp(10px, 1.5vw, 24px);
+  padding: clamp(10px, 1.5vw, 26px);
+}
+
+.game-header {
+  flex-basis: clamp(40px, 4vw, 72px);
+}
+
+.game-icon-container {
+  width: clamp(40px, 4vw, 72px);
+  height: clamp(44px, 4.5vw, 80px);
+}
+
+@media (max-width: 760px) {
+  .portal-main {
+    height: auto;
+    min-height: calc(100svh - var(--portal-header-height));
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    padding-block: clamp(10px, 2.5svh, 24px);
+    gap: clamp(12px, 2.5svh, 24px);
+  }
+
+  .game-options {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  }
+
+  .game-cover {
+    height: clamp(64px, 18vw, 110px);
+  }
+
+  .game-card-content {
+    gap: clamp(8px, 3vw, 16px);
+    padding: clamp(10px, 3vw, 18px);
+  }
+
+  .game-header {
+    flex-basis: clamp(36px, 12vw, 52px);
+  }
+
+  .game-icon-container {
+    width: clamp(36px, 12vw, 52px);
+    height: clamp(40px, 14vw, 58px);
+  }
+}
+
+@media (min-width: 761px) and (orientation: landscape) {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .portal-main {
+    height: calc(100svh - var(--portal-header-height));
+    min-height: 0;
+    grid-template-rows: minmax(0, 1fr) auto auto;
+    align-content: stretch;
+  }
+
+  .hero-section {
+    min-width: 0;
+  }
+
+  .hero-section h1 {
+    max-width: 10ch;
+    font-size: clamp(2rem, 4.8vw, 5rem);
+    line-height: 0.98;
+    text-wrap: balance;
+  }
+
+  .reading-room {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .reading-room img {
+    width: 100%;
+    height: min(42svh, 500px);
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .game-cover {
+    height: clamp(58px, 14svh, 152px);
+  }
+}
+
+@media (min-width: 761px) and (max-height: 680px) and (orientation: landscape) {
+  .portal-main {
+    padding-block: 8px;
+    gap: 8px clamp(14px, 2vw, 32px);
+  }
+
+  .reading-room {
+    display: none;
+  }
+
+  .hero-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-rows: auto 1fr auto auto;
+    align-items: center;
+    gap: 2px 12px;
+    padding: 0;
+  }
+
+  .hero-eyebrow {
+    grid-column: 1 / -1;
+    margin: 0 0 2px;
+  }
+
+  .hero-section h1 {
+    grid-column: 1;
+    grid-row: 2 / 5;
+    align-self: center;
+    margin: 0;
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+  }
+
+  .hero-subtitle {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: end;
+    font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+    line-height: 1.35;
+  }
+
+  .restriction-notice {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: center;
+    margin: 2px 0;
+    font-size: 0.68rem;
+  }
+
+  .hero-request {
+    grid-column: 2;
+    grid-row: 4;
+    justify-self: start;
+    min-height: 28px;
+    padding: 0;
+  }
+
+  .game-cover {
+    height: clamp(48px, 14svh, 82px);
+  }
+
+  .game-card-content {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .game-header {
+    flex-basis: 38px;
+  }
+
+  .game-icon-container {
+    width: 38px;
+    height: 42px;
+  }
+
+  .game-info h2 {
+    margin-bottom: 3px;
+    font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+  }
+
+  .game-info p {
+    font-size: clamp(0.65rem, 1vw, 0.75rem);
+    line-height: 1.25;
+  }
+
+  .game-footer {
+    padding: 6px 10px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (min-width: 761px) and (max-height: 360px) and (orientation: landscape) {
+  html,
+  body {
+    height: auto;
+    min-height: 100%;
+    overflow-y: auto;
+  }
+
+  .portal-main {
+    height: auto;
+    min-height: calc(100svh - var(--portal-header-height));
+  }
+}
