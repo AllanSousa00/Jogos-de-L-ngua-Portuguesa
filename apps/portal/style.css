@@ -1211,3 +1211,20 @@ h1 {
     line-height: 1.25;
   }
 }
+
+@media (min-width: 500px) and (max-width: 760px) and (max-height: 820px) and (orientation: portrait) {
+  .game-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .game-cover {
+    height: clamp(72px, 14vw, 104px);
+  }
+
+  .game-info p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+}

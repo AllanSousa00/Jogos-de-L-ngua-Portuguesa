@@ -4909,6 +4909,7 @@ body[data-theme="dark"] .start-screen {
 }
 .start-card,
 body[data-theme="dark"] .start-card {
+  box-sizing: border-box;
   width: min(94vw, 1760px);
   min-height: 0;
   grid-template-columns: 1fr 1fr;
