@@ -818,7 +818,7 @@ function getPerformanceTier(percent) {
     return {
       label: "Excelente",
       className: "is-excellent",
-      message: "Desempenho excelente. Você dominou muito bem o conteúdo deste quiz."
+      message: "Você acertou quase todas. Confira as respostas que errou."
     };
   }
 
@@ -826,14 +826,14 @@ function getPerformanceTier(percent) {
     return {
       label: "Muito bom",
       className: "is-good",
-      message: "Muito bom. Você teve um ótimo aproveitamento e mostrou segurança nas respostas."
+      message: "Você acertou a maioria. Reveja as questões que errou."
     };
   }
 
   return {
     label: "Precisa revisar",
     className: "is-review",
-    message: "Precisa revisar. A lista abaixo mostra os pontos principais para estudar de novo."
+    message: "Leia as explicações das questões e tente novamente."
   };
 }
 
@@ -907,7 +907,7 @@ function revealAnswerState(selectedIndex) {
 
   feedbackPanel.hidden = false;
   feedbackPanel.classList.add(isCorrect ? "is-correct" : "is-wrong");
-  feedbackTitle.textContent = isCorrect ? "Resposta correta!" : "Quase lá!";
+  feedbackTitle.textContent = isCorrect ? "Resposta correta" : "Resposta incorreta";
   feedbackText.textContent = isCorrect
     ? question.explanation
     : `${question.explanation} A alternativa certa era ${optionLetters[question.answer]}) ${question.options[question.answer]}.`;

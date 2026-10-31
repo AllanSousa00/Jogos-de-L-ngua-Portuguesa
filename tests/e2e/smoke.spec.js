@@ -158,8 +158,9 @@ test.describe("trilha das habilidades", () => {
     }
 
     await expect(page.locator("#victory-modal")).toBeVisible();
-    await expect(page.locator("#victory-summary")).toContainText("Você percorreu as 20 casas");
-    await expect(page.locator("#victory-summary")).toContainText("7 perguntas");
+    await expect(page.locator("#victory-summary")).toContainText(
+      "Você concluiu as 20 casas e acertou 7 de 7 respostas (100%)."
+    );
     await expect(page.locator("#skill-summary .skill-summary__item")).toHaveCount(10);
 
     for (const viewport of [
