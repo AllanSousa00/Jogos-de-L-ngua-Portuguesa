@@ -6,7 +6,9 @@ test.describe("portal unico", () => {
     await page.goto("/");
 
     await expect(page).toHaveTitle(/Jogos de Língua Portuguesa/);
-    await expect(page.getByRole("heading", { level: 1, name: "Escolha um jogo" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Toda palavra abre um caminho." })
+    ).toBeVisible();
     await expect(page.getByText("Uso restrito")).toBeVisible();
     await expect(page.getByRole("link", { name: "Solicitar acesso" })).toHaveAttribute(
       "href",
@@ -122,5 +124,62 @@ test.describe("trilha das habilidades", () => {
 
     await expect(page.getByRole("dialog", { name: /./ })).toBeVisible({ timeout: 4_000 });
     await expect(page.locator("#options-list .option-button").first()).toBeVisible();
+  });
+
+  test("conclui as 20 casas, mostra o resumo e permite jogar novamente", async ({ page }) => {
+    test.setTimeout(30_000);
+    await page.addInitScript(() => {
+      window.localStorage.clear();
+      window.localStorage.setItem(
+        "trilha-habilidades:settings",
+        JSON.stringify({ animations: false, music: false, sfx: false })
+      );
+      Math.random = () => 0.4;
+    });
+    await page.goto("/Trilha-das-Habilidades/");
+    await page.getByRole("button", { name: "Iniciar jogo" }).click();
+
+    for (let turn = 0; turn < 8; turn += 1) {
+      if (await page.locator("#victory-modal").isVisible()) break;
+
+      await page.locator("#roll-button").click();
+      await expect(page.locator("#question-modal")).toBeVisible({ timeout: 5_000 });
+      const prompt = await page.locator("#question-title").innerText();
+      const answerIndex = await page.evaluate(
+        (questionPrompt) =>
+          window.TRILHA_DATA.questions.find((question) => question.prompt === questionPrompt)?.answer,
+        prompt
+      );
+      expect(Number.isInteger(answerIndex)).toBe(true);
+
+      await page.locator("#question-modal .option-button").nth(answerIndex).click();
+      await page.locator("#continue-button").click();
+      await expect(page.locator("#question-modal")).toBeHidden();
+    }
+
+    await expect(page.locator("#victory-modal")).toBeVisible();
+    await expect(page.locator("#victory-summary")).toContainText("Você percorreu as 20 casas");
+    await expect(page.locator("#victory-summary")).toContainText("7 perguntas");
+    await expect(page.locator("#skill-summary .skill-summary__item")).toHaveCount(10);
+
+    for (const viewport of [
+      { width: 390, height: 844 },
+      { width: 320, height: 568 }
+    ]) {
+      await page.setViewportSize(viewport);
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+      expect(overflow).toBe(false);
+
+      const finalSkill = page.locator("#skill-summary .skill-summary__item").last();
+      await finalSkill.scrollIntoViewIfNeeded();
+      await expect(finalSkill).toBeInViewport();
+      await page.locator("#victory-restart-button").scrollIntoViewIfNeeded();
+      await expect(page.locator("#victory-restart-button")).toBeInViewport();
+    }
+
+    await page.locator("#victory-restart-button").click();
+    await expect(page.locator("#victory-modal")).toBeHidden();
+    await expect(page.locator("#position-label")).toHaveText("Casa 0 de 20");
+    await expect(page.locator("#roll-button")).toBeEnabled();
   });
 });

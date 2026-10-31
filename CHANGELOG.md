@@ -2,6 +2,35 @@
 
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
+## [1.1.0] - 2026-10-29
+
+### Visual e áudio
+
+- Biblioteca ilustrada no portal e nova composição para os dois jogos, preservando sua identidade.
+- Quatro ilustrações SVG locais e escola redesenhada no próprio tabuleiro.
+- Novo relevo, lago, vegetação e paleta da Trilha; casas dimensionadas pela largura do mapa.
+- Marcadores compactos em telas menores e nenhuma dependência de imagens remotas para as novas artes.
+- Configurações, modo professor, perguntas e resultados com tipografia e contrastes revisados.
+- Melodias com acompanhamento e pausas, silêncio imediato e liberação dos nós de áudio.
+- Fontes locais com licenças próprias, volume ajustável e preferências acessíveis durante a partida.
+- Caravana segue as curvas da estrada e retorna pelo mesmo percurso quando a resposta está errada.
+
+### Correções
+
+- As casas puladas pelo dado deixaram de ser contadas como erros no percentual final da Trilha.
+- Reiniciar durante o dado cancela a jogada e a pergunta pendentes; cliques repetidos não duplicam jogadas.
+- Foco impedido nos controles atrás das perguntas e da tela inicial da Trilha.
+- Revisão do Quiz com rolagem e ações de reinício acima das respostas, preservando o tamanho do texto.
+- Ajuste de viewport do Quiz deixou de recalcular continuamente suas próprias alterações de estilo.
+- Decorações antigas que cobriam a nova ilustração foram removidas do HTML e do CSS.
+- Dependência transitiva de desenvolvimento atualizada; auditoria retornou zero vulnerabilidades conhecidas.
+- Porta local 4180, independente do Língua Quest, com inicializador para Windows.
+
+### Preservação
+
+- Bancos originais de 14 e 50 questões e posições do tabuleiro comparados com o ZIP de origem.
+- Modos de jogo, armazenamento, créditos, licença e rotas públicas preservados.
+
 ## [Unreleased]
 
 ### Added

@@ -9,7 +9,7 @@ module.exports = defineConfig({
   },
   reporter: process.env.CI ? "github" : "list",
   use: {
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: `http://127.0.0.1:${process.env.PORT || 4180}`,
     screenshot: "only-on-failure",
     trace: "on-first-retry"
   },

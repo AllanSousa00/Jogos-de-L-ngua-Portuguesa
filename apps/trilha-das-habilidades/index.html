@@ -1,343 +1,506 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#22577a">
-  <meta name="description" content="Jogo de trilha para revisar habilidades de Língua Portuguesa em sala ou individualmente.">
-  <meta name="application-name" content="Trilha das Habilidades">
-  <meta name="color-scheme" content="light dark">
-  <title>Trilha das Habilidades</title>
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body data-theme="light">
-  <section id="start-screen" class="start-screen" aria-labelledby="start-title">
-    <button id="settings-toggle" class="settings-toggle" type="button" aria-label="Abrir configurações" aria-expanded="false" aria-controls="settings-panel">
-      <span class="settings-gear" aria-hidden="true"></span>
-    </button>
-
-    <aside id="settings-panel" class="settings-panel" aria-label="Configurações" hidden>
-      <h2>Configurações</h2>
-
-      <label class="setting-row">
-        <span>Tema escuro</span>
-        <span class="setting-switch">
-          <input id="setting-theme" type="checkbox">
-          <span aria-hidden="true"></span>
-        </span>
-      </label>
-
-      <label class="setting-row">
-        <span>Música</span>
-        <span class="setting-switch">
-          <input id="setting-music" type="checkbox">
-          <span aria-hidden="true"></span>
-        </span>
-      </label>
-
-      <label class="setting-row">
-        <span>Sons</span>
-        <span class="setting-switch">
-          <input id="setting-sfx" type="checkbox">
-          <span aria-hidden="true"></span>
-        </span>
-      </label>
-
-      <label class="setting-row">
-        <span>Animações</span>
-        <span class="setting-switch">
-          <input id="setting-animations" type="checkbox">
-          <span aria-hidden="true"></span>
-        </span>
-      </label>
-
-      <label class="setting-row">
-        <span>Decorações</span>
-        <span class="setting-switch">
-          <input id="setting-decorations" type="checkbox">
-          <span aria-hidden="true"></span>
-        </span>
-      </label>
-
-      <label class="setting-row">
-        <span>Texto maior</span>
-        <span class="setting-switch">
-          <input id="setting-large-text" type="checkbox">
-          <span aria-hidden="true"></span>
-        </span>
-      </label>
-
-      <label class="setting-row">
-        <span>Alto contraste</span>
-        <span class="setting-switch">
-          <input id="setting-high-contrast" type="checkbox">
-          <span aria-hidden="true"></span>
-        </span>
-      </label>
-
-      <label class="setting-row">
-        <span>Narrar perguntas</span>
-        <span class="setting-switch">
-          <input id="setting-speech" type="checkbox">
-          <span aria-hidden="true"></span>
-        </span>
-      </label>
-
-      <label class="setting-row">
-        <span>Silenciar tudo</span>
-        <span class="setting-switch">
-          <input id="setting-muted" type="checkbox">
-          <span aria-hidden="true"></span>
-        </span>
-      </label>
-    </aside>
-
-    <div class="start-world" aria-hidden="true">
-      <span class="start-sun"></span>
-      <span class="start-moon"></span>
-      <span class="start-cloud start-cloud--one"></span>
-      <span class="start-cloud start-cloud--two"></span>
-      <span class="start-star start-star--one"></span>
-      <span class="start-star start-star--two"></span>
-      <span class="start-star start-star--three"></span>
-      <span class="start-hill start-hill--one"></span>
-      <span class="start-hill start-hill--two"></span>
-    </div>
-
-    <div class="start-card">
-      <div class="start-card__scene" aria-hidden="true">
-        <span class="start-mini-school"><span>ESCOLA</span></span>
-        <span class="start-lake"></span>
-        <span class="start-tree start-tree--one"></span>
-        <span class="start-tree start-tree--two"></span>
-        <span class="start-lamp-scene start-lamp-scene--one"></span>
-        <span class="start-lamp-scene start-lamp-scene--two"></span>
-        <span class="start-scene-sign">Partida</span>
-        <span class="start-scene-book"></span>
-        <span class="start-scene-pencil"></span>
-        <span class="start-road"></span>
-        <span class="start-bus"></span>
-        <span class="start-tile start-tile--one">1</span>
-        <span class="start-tile start-tile--two">2</span>
-        <span class="start-tile start-tile--three">3</span>
-      </div>
-      <p class="eyebrow">Jogo de caminho</p>
-      <h1 id="start-title">Trilha das Habilidades</h1>
-      <p class="start-subtitle">Caravana estudantil de Português</p>
-      <div class="start-skill-cloud" aria-hidden="true">
-        <span>Leitura</span>
-        <span>Ortografia</span>
-        <span>Pontuação</span>
-        <span>Coesão</span>
-      </div>
-      <div class="start-action-row">
-        <span class="start-dice-preview" aria-hidden="true"></span>
-        <button id="start-button" class="start-button" type="button">Iniciar jogo</button>
-      </div>
-    </div>
-  </section>
-
-  <main class="app">
-    <section class="top-panel" aria-labelledby="game-title">
-      <div>
-        <p class="eyebrow">Jogo de caminho</p>
-        <h1 id="game-title">Trilha das Habilidades</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#a8e1f2" />
+    <meta
+      name="description"
+      content="Jogo de trilha para revisar habilidades de Língua Portuguesa em sala ou individualmente."
+    />
+    <meta name="application-name" content="Trilha das Habilidades" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Trilha das Habilidades</title>
+    <link rel="preload" href="./fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body data-theme="light">
+    <div id="settings-scrim" class="settings-scrim" hidden></div>
+    <aside
+      id="settings-panel"
+      class="settings-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="preferences-title"
+      tabindex="-1"
+      hidden
+    >
+      <div class="preferences-header">
+        <h2 id="preferences-title">Configurações</h2>
+        <button id="settings-close" class="preferences-close" type="button" aria-label="Fechar configurações">
+          ×
+        </button>
       </div>
 
-      <div class="score-panel" aria-live="polite">
-        <span id="position-label">Casa 0 de 20</span>
-        <strong id="score-label">0 acertos</strong>
-        <span class="progress-track" aria-hidden="true">
-          <span id="progress-fill"></span>
-        </span>
-      </div>
-    </section>
-
-    <section class="controls" aria-label="Controles do jogo">
-      <p class="controls-title">Controle da caravana</p>
-      <button id="roll-button" class="dice-button" type="button" aria-label="Jogar o dado" disabled>
-        <span class="dice-stage" aria-hidden="true">
-          <span id="dice-cube" class="dice-cube show-1">
-            <span class="dice-face dice-face--1">
-              <span class="pip pip--center"></span>
-            </span>
-            <span class="dice-face dice-face--2">
-              <span class="pip pip--top-left"></span>
-              <span class="pip pip--bottom-right"></span>
-            </span>
-            <span class="dice-face dice-face--3">
-              <span class="pip pip--top-left"></span>
-              <span class="pip pip--center"></span>
-              <span class="pip pip--bottom-right"></span>
-            </span>
-            <span class="dice-face dice-face--4">
-              <span class="pip pip--top-left"></span>
-              <span class="pip pip--top-right"></span>
-              <span class="pip pip--bottom-left"></span>
-              <span class="pip pip--bottom-right"></span>
-            </span>
-            <span class="dice-face dice-face--5">
-              <span class="pip pip--top-left"></span>
-              <span class="pip pip--top-right"></span>
-              <span class="pip pip--center"></span>
-              <span class="pip pip--bottom-left"></span>
-              <span class="pip pip--bottom-right"></span>
-            </span>
-            <span class="dice-face dice-face--6">
-              <span class="pip pip--top-left"></span>
-              <span class="pip pip--middle-left"></span>
-              <span class="pip pip--bottom-left"></span>
-              <span class="pip pip--top-right"></span>
-              <span class="pip pip--middle-right"></span>
-              <span class="pip pip--bottom-right"></span>
-            </span>
+      <fieldset class="preferences-group">
+        <legend>Ambiente</legend>
+        <label class="setting-row">
+          <span>Tema escuro</span>
+          <span class="setting-switch">
+            <input id="setting-theme" type="checkbox" />
+            <span aria-hidden="true"></span>
           </span>
-        </span>
-        <span class="dice-button__text">Jogar dado</span>
-      </button>
+        </label>
+        <label class="setting-row">
+          <span>Animações</span>
+          <span class="setting-switch">
+            <input id="setting-animations" type="checkbox" />
+            <span aria-hidden="true"></span>
+          </span>
+        </label>
+        <label class="setting-row">
+          <span>Decorações</span>
+          <span class="setting-switch">
+            <input id="setting-decorations" type="checkbox" />
+            <span aria-hidden="true"></span>
+          </span>
+        </label>
+      </fieldset>
 
-      <div class="dice-box" aria-live="polite">
-        <span>Resultado</span>
-        <strong id="dice-value">-</strong>
+      <fieldset class="preferences-group">
+        <legend>Som</legend>
+        <label class="setting-row">
+          <span>Música</span>
+          <span class="setting-switch">
+            <input id="setting-music" type="checkbox" />
+            <span aria-hidden="true"></span>
+          </span>
+        </label>
+        <label class="setting-row setting-row--volume"
+          ><span>Volume</span><output id="volume-value" for="setting-volume">70%</output
+          ><input aria-label="Volume" id="setting-volume" type="range" min="0" max="100" step="5" value="70"
+        /></label>
+        <label class="setting-row">
+          <span>Sons</span>
+          <span class="setting-switch">
+            <input id="setting-sfx" type="checkbox" />
+            <span aria-hidden="true"></span>
+          </span>
+        </label>
+        <label class="setting-row">
+          <span>Silenciar tudo</span>
+          <span class="setting-switch">
+            <input id="setting-muted" type="checkbox" />
+            <span aria-hidden="true"></span>
+          </span>
+        </label>
+      </fieldset>
+
+      <fieldset class="preferences-group">
+        <legend>Leitura</legend>
+        <label class="setting-row">
+          <span>Texto maior</span>
+          <span class="setting-switch">
+            <input id="setting-large-text" type="checkbox" />
+            <span aria-hidden="true"></span>
+          </span>
+        </label>
+        <label class="setting-row">
+          <span>Alto contraste</span>
+          <span class="setting-switch">
+            <input id="setting-high-contrast" type="checkbox" />
+            <span aria-hidden="true"></span>
+          </span>
+        </label>
+        <label class="setting-row">
+          <span>Narrar perguntas</span>
+          <span class="setting-switch">
+            <input id="setting-speech" type="checkbox" />
+            <span aria-hidden="true"></span>
+          </span>
+        </label>
+      </fieldset>
+      <div class="settings-actions" role="group" aria-label="Aparência">
+        <button id="theme-button" class="secondary-button theme-button" type="button" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true"></span>
+          <span id="theme-label">Tema dark</span>
+        </button>
+        <button id="fullscreen-button" class="secondary-button fullscreen-button" type="button">
+          <span class="fullscreen-button__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M8 3.5H3.5V8M16 3.5h4.5V8M8 20.5H3.5V16M16 20.5h4.5V16"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </span>
+          <span id="fullscreen-label">Tela cheia</span>
+        </button>
       </div>
-
-      <button id="order-button" class="secondary-button" type="button">Modo alternado</button>
-      <button id="restart-button" class="secondary-button" type="button">Reiniciar</button>
-      <button id="theme-button" class="secondary-button theme-button" type="button" aria-pressed="false">
-        <span class="theme-icon" aria-hidden="true"></span>
-        <span id="theme-label">Tema dark</span>
-      </button>
-      <button id="fullscreen-button" class="secondary-button fullscreen-button" type="button">
-        <span class="fullscreen-button__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M8 3.5H3.5V8M16 3.5h4.5V8M8 20.5H3.5V16M16 20.5h4.5V16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </span>
-        <span id="fullscreen-label">Tela cheia</span>
-      </button>
-    </section>
-
-    <section class="board-wrap" aria-label="Tabuleiro">
-      <div class="board-scene">
-        <div class="sun" aria-hidden="true"></div>
-        <div class="moon" aria-hidden="true"></div>
-        <div class="stars" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <div class="cloud cloud--one" aria-hidden="true"></div>
-        <div class="cloud cloud--two" aria-hidden="true"></div>
-        <div class="day-layer" aria-hidden="true">
-          <span class="paper-plane paper-plane--one"></span>
-          <span class="paper-plane paper-plane--two"></span>
-          <span class="sun-ray sun-ray--one"></span>
-          <span class="sun-ray sun-ray--two"></span>
-          <span class="chalk-mark chalk-mark--one"></span>
-          <span class="chalk-mark chalk-mark--two"></span>
-          <span class="field-flags"></span>
-          <span class="ruler"></span>
-          <span class="color-pencil color-pencil--one"></span>
-          <span class="color-pencil color-pencil--two"></span>
-          <span class="day-note">Bons estudos</span>
-        </div>
-        <div class="night-layer" aria-hidden="true">
-          <span class="constellation constellation--one"></span>
-          <span class="constellation constellation--two"></span>
-          <span class="lamp lamp--one"></span>
-          <span class="lamp lamp--two"></span>
-          <span class="lamp lamp--three"></span>
-          <span class="night-glow night-glow--one"></span>
-          <span class="night-glow night-glow--two"></span>
-          <span class="moon-beam moon-beam--one"></span>
-          <span class="moon-beam moon-beam--two"></span>
-          <span class="reflector reflector--one"></span>
-          <span class="reflector reflector--two"></span>
-          <span class="reflector reflector--three"></span>
-          <span class="night-note">Rota iluminada</span>
-        </div>
-        <div class="hill-detail hill-detail--one" aria-hidden="true"></div>
-        <div class="hill-detail hill-detail--two" aria-hidden="true"></div>
-        <div class="school" aria-hidden="true">
-          <span class="school-roof"></span>
-          <span class="school-body"><span class="school-label">ESCOLA</span></span>
-        </div>
-        <div class="study-sign study-sign--start" aria-hidden="true"><span class="sign-label">Partida</span></div>
-        <div class="study-sign study-sign--finish" aria-hidden="true"><span class="sign-label">Chegada</span></div>
-        <div class="book book--one" aria-hidden="true"></div>
-        <div class="book book--two" aria-hidden="true"></div>
-        <div class="pencil" aria-hidden="true"></div>
-        <div class="compass" aria-hidden="true"></div>
-        <div class="notebook-lines" aria-hidden="true"></div>
-        <div class="lake" aria-hidden="true"></div>
-        <div class="tree tree--one" aria-hidden="true"></div>
-        <div class="tree tree--two" aria-hidden="true"></div>
-        <div class="finish-target" aria-hidden="true">
-          <span></span>
-        </div>
-
-        <svg class="route" viewBox="0 0 1200 700" aria-hidden="true" preserveAspectRatio="none">
-          <path class="route-shadow" d="M95 565 C220 650 360 620 398 508 C438 390 242 374 238 250 C235 126 430 84 548 154 C675 229 538 410 702 427 C838 441 735 244 876 158 C1004 80 1152 164 1085 306 C1024 437 862 353 838 498 C813 654 1031 630 1110 552"></path>
-          <path class="route-base" d="M95 565 C220 650 360 620 398 508 C438 390 242 374 238 250 C235 126 430 84 548 154 C675 229 538 410 702 427 C838 441 735 244 876 158 C1004 80 1152 164 1085 306 C1024 437 862 353 838 498 C813 654 1031 630 1110 552"></path>
-          <path class="route-stitches" d="M95 565 C220 650 360 620 398 508 C438 390 242 374 238 250 C235 126 430 84 548 154 C675 229 538 410 702 427 C838 441 735 244 876 158 C1004 80 1152 164 1085 306 C1024 437 862 353 838 498 C813 654 1031 630 1110 552"></path>
+    </aside>
+    <section id="start-screen" class="start-screen" aria-labelledby="start-title">
+      <button
+        id="settings-toggle"
+        class="settings-toggle"
+        type="button"
+        aria-label="Abrir configurações"
+        aria-expanded="false"
+        aria-controls="settings-panel"
+      >
+        <svg class="preferences-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+          <path d="M8 3v6m8 0v6M9 15v6" />
         </svg>
+      </button>
 
-        <div id="caravan" class="caravan" aria-hidden="true">
-          <span class="bus-shadow"></span>
-          <div class="bus-body">
-            <span class="bus-roof-rack"></span>
-            <span class="bus-stripe"></span>
-            <span class="bus-window"></span>
-            <span class="bus-window"></span>
-            <span class="bus-window bus-window--small"></span>
-            <span class="bus-door"></span>
-            <span class="bus-light"></span>
-            <span class="bus-tail-light"></span>
-            <span class="bus-bumper"></span>
-          </div>
-          <span class="wheel wheel--front"></span>
-          <span class="wheel wheel--back"></span>
+      <div class="start-card">
+        <div class="start-card__scene" aria-hidden="true"></div>
+        <p class="eyebrow">
+          <span class="expedition-number" aria-hidden="true">02</span> Bilhete de expedição
+        </p>
+        <h1 id="start-title">Trilha das Habilidades</h1>
+        <p class="start-subtitle">Caravana estudantil de Português</p>
+        <p class="start-description">
+          Uma viagem pelas palavras. Lance o dado, atravesse as 20 casas e pratique uma habilidade a cada
+          parada.
+        </p>
+        <div class="start-skill-cloud" aria-label="Habilidades da viagem">
+          <span>Leitura</span>
+          <span>Ortografia</span>
+          <span>Pontuação</span>
+          <span>Coesão</span>
+        </div>
+        <div class="start-action-row">
+          <span class="start-dice-preview" aria-hidden="true"></span>
+          <button id="start-button" class="start-button" type="button">
+            Iniciar jogo <span class="start-arrow" aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <main class="app" inert hidden>
+      <section class="top-panel" aria-labelledby="game-title">
+        <div>
+          <p class="eyebrow">Jogo de caminho</p>
+          <h1 id="game-title">Trilha das Habilidades</h1>
         </div>
 
-        <ol id="board" class="board"></ol>
-      </div>
-    </section>
+        <div class="score-panel" aria-live="polite">
+          <span id="position-label">Casa 0 de 20</span>
+          <strong id="score-label">0 acertos</strong>
+          <span class="progress-track" aria-hidden="true">
+            <span id="progress-fill"></span>
+          </span>
+        </div>
+      </section>
 
-  </main>
+      <section class="controls" aria-label="Controles do jogo">
+        <p class="controls-title">Controle da caravana</p>
+        <div class="mobile-action-dock" role="group" aria-label="Ação da rodada">
+          <button id="roll-button" class="dice-button" type="button" aria-label="Jogar o dado" disabled>
+            <span class="dice-stage" aria-hidden="true">
+              <span id="dice-cube" class="dice-cube show-1">
+                <span class="dice-face dice-face--1">
+                  <span class="pip pip--center"></span>
+                </span>
+                <span class="dice-face dice-face--2">
+                  <span class="pip pip--top-left"></span>
+                  <span class="pip pip--bottom-right"></span>
+                </span>
+                <span class="dice-face dice-face--3">
+                  <span class="pip pip--top-left"></span>
+                  <span class="pip pip--center"></span>
+                  <span class="pip pip--bottom-right"></span>
+                </span>
+                <span class="dice-face dice-face--4">
+                  <span class="pip pip--top-left"></span>
+                  <span class="pip pip--top-right"></span>
+                  <span class="pip pip--bottom-left"></span>
+                  <span class="pip pip--bottom-right"></span>
+                </span>
+                <span class="dice-face dice-face--5">
+                  <span class="pip pip--top-left"></span>
+                  <span class="pip pip--top-right"></span>
+                  <span class="pip pip--center"></span>
+                  <span class="pip pip--bottom-left"></span>
+                  <span class="pip pip--bottom-right"></span>
+                </span>
+                <span class="dice-face dice-face--6">
+                  <span class="pip pip--top-left"></span>
+                  <span class="pip pip--middle-left"></span>
+                  <span class="pip pip--bottom-left"></span>
+                  <span class="pip pip--top-right"></span>
+                  <span class="pip pip--middle-right"></span>
+                  <span class="pip pip--bottom-right"></span>
+                </span>
+              </span>
+            </span>
+            <span class="dice-button__text">Jogar dado</span>
+          </button>
 
-  <div id="sr-status" class="sr-only" aria-live="polite"></div>
+          <div class="dice-box" aria-live="polite">
+            <span>Resultado</span>
+            <strong id="dice-value">-</strong>
+          </div>
+        </div>
 
-  <div id="question-modal" class="modal-backdrop" hidden>
-    <section class="question-card" role="dialog" aria-modal="true" aria-labelledby="question-title" aria-describedby="feedback-text" tabindex="-1">
-      <div class="question-meta">
-        <span id="question-skill">Habilidade</span>
-        <strong id="question-number">Questão</strong>
-        <span id="question-type">Tipo</span>
-      </div>
+        <button
+          id="order-button"
+          class="secondary-button"
+          type="button"
+          title="Alternar a ordem das habilidades"
+        >
+          <span class="control-icon" aria-hidden="true"
+            ><svg viewBox="0 0 20 20"><path d="M3 6h14m-3-3 3 3-3 3M17 14H3m3-3-3 3 3 3" /></svg></span
+          ><span id="order-label">Modo alternado</span>
+        </button>
+        <button
+          id="restart-button"
+          class="secondary-button"
+          type="button"
+          title="Reiniciar a trilha (R)"
+          aria-keyshortcuts="R"
+        >
+          <span class="control-icon" aria-hidden="true"
+            ><svg viewBox="0 0 20 20"><path d="M4 7a7 7 0 1 1-1 7M3 3v5h5" /></svg></span
+          ><span>Reiniciar</span><kbd aria-hidden="true">R</kbd>
+        </button>
+        <button
+          id="sound-button"
+          class="secondary-button"
+          type="button"
+          aria-pressed="false"
+          title="Silenciar ou ativar o som (M)"
+          aria-keyshortcuts="M"
+        >
+          <span class="control-icon" aria-hidden="true"
+            ><svg viewBox="0 0 20 20">
+              <path d="M3 8h4l4-4v12l-4-4H3Z" />
+              <path class="sound-wave" d="M14 7q4 3 0 6" />
+              <path class="sound-slash" d="m14 8 4 4m0-4-4 4" /></svg></span
+          ><span id="sound-label">Silenciar som</span><kbd aria-hidden="true">M</kbd>
+        </button>
+        <button
+          id="game-settings-button"
+          class="secondary-button"
+          type="button"
+          aria-expanded="false"
+          aria-controls="settings-panel"
+        >
+          <span class="control-icon" aria-hidden="true"
+            ><svg viewBox="0 0 20 20"><path d="M4 4h12M4 10h12M4 16h12M7 2v4M13 8v4M8 14v4" /></svg></span
+          ><span>Opções</span>
+        </button>
+        <p id="journey-message" class="journey-message">Jogue o dado para descobrir sua primeira parada.</p>
+      </section>
 
-      <h2 id="question-title"></h2>
-      <div id="options-list" class="options-list"></div>
+      <section class="board-wrap" aria-label="Tabuleiro">
+        <div class="board-scene">
+          <div class="sun" aria-hidden="true"></div>
+          <div class="moon" aria-hidden="true"></div>
+          <div class="stars" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="cloud cloud--one" aria-hidden="true"></div>
+          <div class="cloud cloud--two" aria-hidden="true"></div>
+          <div class="day-layer" aria-hidden="true">
+            <span class="paper-plane paper-plane--one"></span>
+            <span class="paper-plane paper-plane--two"></span>
+            <span class="sun-ray sun-ray--one"></span>
+            <span class="sun-ray sun-ray--two"></span>
+            <span class="chalk-mark chalk-mark--one"></span>
+            <span class="chalk-mark chalk-mark--two"></span>
+            <span class="field-flags"></span>
+            <span class="ruler"></span>
+            <span class="color-pencil color-pencil--one"></span>
+            <span class="color-pencil color-pencil--two"></span>
+            <span class="day-note">Bons estudos</span>
+          </div>
+          <div class="night-layer" aria-hidden="true">
+            <svg class="night-fixtures" viewBox="0 0 1200 700" preserveAspectRatio="none" fill="none">
+              <defs>
+                <radialGradient id="lantern-halo">
+                  <stop stop-color="#f1cf7d" stop-opacity=".25" />
+                  <stop offset="1" stop-color="#f1cf7d" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+              <g transform="translate(113 523)">
+                <circle r="25" fill="url(#lantern-halo)" />
+                <path d="M0 26V-15h-9" stroke="#b5b294" stroke-width="3" stroke-linecap="round" />
+                <path d="M-14-12h12v17h-12z" fill="#e2bc68" stroke="#42534b" stroke-width="2" />
+                <path d="m-16-12 8-5 8 5m-8 0V4" stroke="#42534b" stroke-width="2" />
+                <path d="M-5-7v8" stroke="#fff0be" stroke-width="2" />
+              </g>
+              <g transform="translate(639 566)">
+                <circle r="25" fill="url(#lantern-halo)" />
+                <path d="M0-7v-12h11" stroke="#c2b18c" stroke-width="3" />
+                <path d="M6-15h11v17H6z" fill="#e2bc68" stroke="#42534b" stroke-width="2" />
+                <path d="m4-15 7-5 8 5m-8 0V1" stroke="#42534b" stroke-width="2" />
+                <path d="M14-10v8" stroke="#fff0be" stroke-width="2" />
+              </g>
+            </svg>
+            <span class="constellation constellation--one"></span>
+            <span class="constellation constellation--two"></span>
+            <span class="night-glow night-glow--one"></span>
+            <span class="night-glow night-glow--two"></span>
+            <span class="moon-beam moon-beam--one"></span>
+            <span class="moon-beam moon-beam--two"></span>
+            <span class="reflector reflector--one"></span>
+            <span class="reflector reflector--two"></span>
+            <span class="reflector reflector--three"></span>
+            <span class="night-note">Rota iluminada</span>
+          </div>
+          <div class="hill-detail hill-detail--one" aria-hidden="true"></div>
+          <div class="hill-detail hill-detail--two" aria-hidden="true"></div>
+          <div class="school" aria-hidden="true">
+            <svg viewBox="0 0 120 110" fill="none">
+              <path d="M15 42h90v60H15z" fill="#e4c988" stroke="#314e49" stroke-width="3" />
+              <path
+                d="m7 43 53-36 53 36Z"
+                fill="#af6550"
+                stroke="#314e49"
+                stroke-width="3"
+                stroke-linejoin="round"
+              />
+              <path d="M48 67h24v35H48z" fill="#597a71" stroke="#314e49" stroke-width="3" />
+              <path d="M24 59h15v19H24zm57 0h15v19H81z" fill="#c2d7cc" stroke="#314e49" stroke-width="3" />
+              <path d="M25 68h12m-6-7v15m51-8h12m-6-7v15" stroke="#314e49" stroke-width="2" />
+              <path d="M11 105h98" stroke="#b59864" stroke-width="6" />
+              <path d="M40 45h40v12H40z" fill="#f7ebcf" />
+              <text
+                x="60"
+                y="54"
+                fill="#314e49"
+                text-anchor="middle"
+                font-family="sans-serif"
+                font-size="7"
+                font-weight="700"
+              >
+                ESCOLA
+              </text>
+              <circle cx="60" cy="30" r="7" fill="#eadfb6" stroke="#314e49" stroke-width="2" />
+              <path d="M60 26v4l3 2" stroke="#314e49" stroke-width="1.5" />
+              <circle cx="65" cy="85" r="1.8" fill="#e4c988" />
+            </svg>
+          </div>
+          <div class="study-sign study-sign--start" aria-hidden="true">
+            <span class="sign-label">Partida</span>
+          </div>
+          <div class="study-sign study-sign--finish" aria-hidden="true">
+            <span class="sign-label">Chegada</span>
+          </div>
+          <div class="book book--one" aria-hidden="true"></div>
+          <div class="book book--two" aria-hidden="true"></div>
+          <div class="pencil" aria-hidden="true"></div>
+          <div class="compass" aria-hidden="true"></div>
+          <div class="notebook-lines" aria-hidden="true"></div>
+          <div class="lake" aria-hidden="true"></div>
+          <div class="tree tree--one" aria-hidden="true"></div>
+          <div class="tree tree--two" aria-hidden="true"></div>
+          <div class="finish-target" aria-hidden="true">
+            <span></span>
+          </div>
 
-      <p id="feedback-text" class="feedback-text" aria-live="polite"></p>
+          <svg class="route" viewBox="0 0 1200 700" aria-hidden="true" preserveAspectRatio="none">
+            <path
+              class="route-shadow"
+              d="M95 565 C220 650 360 620 398 508 C438 390 242 374 238 250 C235 126 430 84 548 154 C675 229 538 410 702 427 C838 441 735 244 876 158 C1004 80 1152 164 1085 306 C1024 437 862 353 838 498 C813 654 1031 630 1110 552"
+            ></path>
+            <path
+              class="route-base"
+              d="M95 565 C220 650 360 620 398 508 C438 390 242 374 238 250 C235 126 430 84 548 154 C675 229 538 410 702 427 C838 441 735 244 876 158 C1004 80 1152 164 1085 306 C1024 437 862 353 838 498 C813 654 1031 630 1110 552"
+            ></path>
+            <path
+              class="route-stitches"
+              d="M95 565 C220 650 360 620 398 508 C438 390 242 374 238 250 C235 126 430 84 548 154 C675 229 538 410 702 427 C838 441 735 244 876 158 C1004 80 1152 164 1085 306 C1024 437 862 353 838 498 C813 654 1031 630 1110 552"
+            ></path>
+            <path class="route-traveled" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"></path>
+          </svg>
 
-      <div class="modal-actions">
-        <button id="continue-button" class="primary-button" type="button" hidden>Continuar</button>
-      </div>
-    </section>
-  </div>
+          <div id="caravan" class="caravan" aria-hidden="true">
+            <span class="bus-shadow"></span>
+            <div class="bus-body">
+              <span class="bus-roof-rack"></span>
+              <span class="bus-stripe"></span>
+              <span class="bus-window"></span>
+              <span class="bus-window"></span>
+              <span class="bus-window bus-window--small"></span>
+              <span class="bus-door"></span>
+              <span class="bus-light"></span>
+              <span class="bus-tail-light"></span>
+              <span class="bus-bumper"></span>
+            </div>
+            <span class="wheel wheel--front"></span>
+            <span class="wheel wheel--back"></span>
+          </div>
 
-  <div id="victory-modal" class="modal-backdrop" hidden>
-    <section class="victory-card" role="dialog" aria-modal="true" aria-labelledby="victory-title" tabindex="-1">
-      <p class="eyebrow">Fim da trilha</p>
-      <h2 id="victory-title">Chegada alcançada</h2>
-      <p id="victory-summary"></p>
-      <div id="skill-summary" class="skill-summary" aria-label="Resumo por habilidade"></div>
-      <div class="modal-actions">
-        <button id="victory-restart-button" class="primary-button" type="button">Jogar novamente</button>
-        <button id="victory-close-button" class="secondary-button" type="button">Fechar</button>
-      </div>
-    </section>
-  </div>
+          <ol id="board" class="board"></ol>
+        </div>
+      </section>
+    </main>
 
-  <script src="./game-data.js"></script>
-  <script src="./script.js"></script>
-</body>
+    <div id="sr-status" class="sr-only" aria-live="polite"></div>
+
+    <div id="question-modal" class="modal-backdrop" hidden>
+      <section
+        class="question-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="question-title"
+        aria-describedby="feedback-text"
+        tabindex="-1"
+      >
+        <div class="question-meta">
+          <span id="question-skill">Habilidade</span>
+          <strong id="question-number">Questão</strong>
+          <span id="question-type">Tipo</span>
+        </div>
+
+        <h2 id="question-title"></h2>
+        <div id="options-list" class="options-list"></div>
+
+        <p id="feedback-text" class="feedback-text" aria-live="polite"></p>
+
+        <div class="modal-actions">
+          <button id="continue-button" class="primary-button" type="button" hidden>Continuar</button>
+        </div>
+      </section>
+    </div>
+
+    <div id="victory-modal" class="modal-backdrop" hidden>
+      <section
+        class="victory-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="victory-title"
+        tabindex="-1"
+      >
+        <div class="victory-heading">
+          <div>
+            <p class="eyebrow">Fim da trilha</p>
+            <h2 id="victory-title">Chegada alcançada</h2>
+          </div>
+          <svg class="victory-seal" viewBox="0 0 72 72" fill="none" aria-hidden="true">
+            <circle cx="36" cy="36" r="32" stroke="currentColor" stroke-width="1.5" />
+            <circle cx="36" cy="36" r="27" stroke="currentColor" stroke-dasharray="2 4" />
+            <path
+              d="M25 52V20m0 1q10-7 23-1v21q-13-6-23 1"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M26 22h7v7h-7zm14-2h7v7h-7zm-7 8h7v7h-7zm-7 8h7v6h-7zm14-2h7v6h-7z"
+              fill="currentColor"
+            />
+            <path d="M20 53h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </div>
+        <p id="victory-summary"></p>
+        <div class="modal-actions">
+          <button id="victory-restart-button" class="primary-button" type="button">Jogar novamente</button>
+          <button id="victory-close-button" class="secondary-button" type="button">Fechar</button>
+        </div>
+        <div id="skill-summary" class="skill-summary" aria-label="Resumo por habilidade"></div>
+      </section>
+    </div>
+
+    <script src="./game-data.js"></script>
+    <script src="./route-motion.js"></script>
+    <script src="./script.js"></script>
+  </body>
 </html>

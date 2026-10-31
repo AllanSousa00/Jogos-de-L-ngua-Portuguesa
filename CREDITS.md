@@ -8,6 +8,15 @@ Projeto organizado para **Allan Sousa**.
 - Quiz Português.
 - Trilha das Habilidades.
 
+## Fontes
+
+- **Baloo 2** — Copyright 2019 The Baloo 2 Project Authors, [Ek Type](https://github.com/EkType/Baloo2).
+- **Outfit** — Copyright 2021 The Outfit Project Authors, [Outfit](https://github.com/Outfitio/Outfit-Fonts).
+
+As fontes são distribuídas localmente com sua licença **SIL Open Font License 1.1**, no arquivo
+`fonts/OFL.txt` de cada aplicativo. A licença das fontes permanece separada dos termos de uso restrito
+do código, das perguntas e das ilustrações do projeto.
+
 ## Uso autorizado
 
 Este material é de uso restrito. Somente pessoas, instituições ou serviços autorizados pelo

@@ -11,6 +11,10 @@ const trilha = applications.find(({ id }) => id === "trilha");
 const checks = [
   ["Conferindo JavaScript da trilha", ["--check", path.join(root, trilha.sourceDirectory, "script.js")]],
   ["Conferindo dados da trilha", ["--check", path.join(root, trilha.sourceDirectory, "game-data.js")]],
+  [
+    "Conferindo movimento da caravana",
+    ["--check", path.join(root, trilha.sourceDirectory, "route-motion.js")]
+  ],
   ["Conferindo JavaScript do quiz", ["--check", path.join(root, quiz.sourceDirectory, "script.js")]],
   [
     "Conferindo ajuste de viewport do quiz",

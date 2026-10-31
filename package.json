@@ -1,14 +1,14 @@
 {
   "name": "plataforma-lingua-portuguesa",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Atividades escolares de Lingua Portuguesa com quiz e jogo de trilha.",
   "scripts": {
     "serve": "node tools/serve.js",
-    "check": "npm run check:apps && npm run check:source && npm run lint && npm run format:check && npm run test:e2e && npm run test:layout",
+    "check": "npm run check:apps && npm run check:source && npm run test:unit && npm run lint && npm run format:check && npm run test:e2e && npm run test:layout",
     "check:apps": "npm run check:quiz && npm run check:trilha",
     "check:quiz": "node --check apps/quiz-portugues/script.js && node --check apps/quiz-portugues/viewport-fit.js && node --check apps/quiz-portugues/validate-data.js && node apps/quiz-portugues/validate-data.js",
-    "check:trilha": "node --check apps/trilha-das-habilidades/script.js && node --check apps/trilha-das-habilidades/game-data.js && node --check apps/trilha-das-habilidades/validate-data.js && node apps/trilha-das-habilidades/validate-data.js",
+    "check:trilha": "node --check apps/trilha-das-habilidades/script.js && node --check apps/trilha-das-habilidades/route-motion.js && node --check apps/trilha-das-habilidades/game-data.js && node --check apps/trilha-das-habilidades/validate-data.js && node apps/trilha-das-habilidades/validate-data.js",
     "check:source": "node tools/check-project.js",
     "lint": "npm run lint:js",
     "lint:js": "eslint .",
@@ -19,7 +19,8 @@
     "test:e2e": "node tools/run-e2e.js",
     "test:layout": "node tools/run-e2e.js tests/e2e/layout.spec.js --workers=1",
     "build:static": "node tools/build-static.js",
-    "preview": "node tools/serve.js dist"
+    "preview": "node tools/serve.js dist",
+    "test:unit": "node --test tests/audio.test.js tests/results.test.js tests/route-motion.test.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

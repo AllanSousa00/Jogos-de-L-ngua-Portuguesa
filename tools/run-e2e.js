@@ -5,14 +5,14 @@ const path = require("node:path");
 const { spawn } = require("node:child_process");
 
 const root = path.resolve(__dirname, "..");
-const serverUrl = "http://127.0.0.1:4173/Quiz-Portugues/";
+const serverUrl = `http://127.0.0.1:${process.env.PORT || 4180}/Quiz-Portugues/`;
 let ownedServer = null;
 
 function isServerReady() {
   return new Promise((resolve) => {
     const request = http.get(serverUrl, (response) => {
       response.resume();
-      resolve(response.statusCode === 200);
+      resolve(response.statusCode === 200 && response.headers["x-project"] === "portugues-em-jogos");
     });
 
     request.on("error", () => resolve(false));

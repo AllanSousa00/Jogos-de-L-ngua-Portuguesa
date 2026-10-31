@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" preserveAspectRatio="none" fill="none">
+  <title>Vale das palavras</title>
+  <desc>Um mapa ilustrado com escola, lago, bosque de ipês e pavilhão de leitura ligados por caminhos.</desc>
+  <defs>
+    <pattern id="meadow" width="83" height="79" patternUnits="userSpaceOnUse"><path d="m18 27 3-5 3 5m42 35 2-4 3 4" stroke="#e8e9b9" stroke-opacity=".2" stroke-width="1.6" stroke-linecap="round"/></pattern>
+    <pattern id="water" width="32" height="23" patternUnits="userSpaceOnUse"><path d="M6 12h12m-1 8h7" stroke="#b4cfc1" stroke-opacity=".5" stroke-linecap="round" stroke-width="2"/></pattern>
+    <g id="pine"><ellipse cy="22" rx="22" ry="6" fill="#38594a" opacity=".2"/><path d="M0-4v29" stroke="#826846" stroke-width="7"/><path d="m0-53 22 37H12L29 9h-58l17-25h-10Z" fill="#456b51"/><path d="m0-45 15 29H6L20 4H0Z" fill="#60815c"/></g>
+    <g id="bush"><ellipse cy="8" rx="22" ry="6" fill="#3d604b" opacity=".15"/><path d="M-23 4q-6-19 11-23 7-19 23-5 22-1 17 22Z" fill="#6e8c5f"/><path d="m-12-4 9-2m5-8 8 3" stroke="#a9b37b" stroke-width="3" stroke-linecap="round"/></g>
+    <g id="ipe"><ellipse cx="0" cy="26" rx="29" ry="7" fill="#365b46" opacity=".15"/><path d="M0 26V-13m0 20-16-16M0-2l16-16" stroke="#806449" stroke-width="6" stroke-linecap="round"/><path d="M-30-18q-12-17 5-25 0-17 18-14 10-17 24-5 19-8 23 11 22 8 9 24-8 19-27 10-18 13-31-1Z" fill="#d6bb64"/><path d="m-23-34 5-4m12-9 5 3m15-9 6 2m11 15 5-3m-24 16 7 1m-26-8 5 2" stroke="#f0db8e" stroke-width="5" stroke-linecap="round"/></g>
+    <g id="reading-bench"><ellipse cx="0" cy="38" rx="47" ry="9" fill="#3f654b" opacity=".17"/><path d="M-34 7v31m68-31v31" stroke="#886d4c" stroke-width="5"/><path d="M-45 7 0-23 45 7Z" fill="#ad6e52" stroke="#4a674f" stroke-width="3"/><path d="m-31-1 62 0m-50-8 38 0" stroke="#d59d6c" stroke-width="2"/><path d="M-24 23h48v7h-48z" fill="#a88851" stroke="#4a674f" stroke-width="2"/><path d="M-19 30v8m38-8v8" stroke="#4a674f" stroke-width="3"/><path d="M-9 20v-13q7-2 13 2 6-4 13-2v13q-7-2-13 2-6-4-13-2Z" fill="#f4e6b8" stroke="#526a50" stroke-width="1.5"/><path d="M4 9v13" stroke="#b08b59" stroke-width="1.5"/></g>
+  </defs>
+  <path fill="#a2b38b" d="M0 0h1200v700H0z"/>
+  <path d="M0 0h1200v159q-152-24-263 26T654 158 382 171 0 146Z" fill="#c3d0b9"/>
+  <path d="M0 78q113-54 227-7t216-4 226 2 248-8 283 18v92q-120-17-244 7T681 157 426 175 0 159Z" fill="#afc3a8"/>
+  <path d="M0 210q151-47 301 20t298 3 269-28 332 44v228q-155 24-317-35t-291 15-316-3T0 471Z" fill="#8da57c"/>
+  <path d="M0 540q162-78 344-9t278-5 313-38 265 31v181H0Z" fill="#b4bf8d"/>
+  <path d="M-30 603q159-56 310-4t306-2 303 5 342-23M-30 632q160-56 309-5t308-1 302 7 342-24M-30 661q160-55 309-4t308-1 302 7 342-24" stroke="#869d70" stroke-width="2" opacity=".5"/>
+  <path d="M342 250q52-40 100-8t36 104-55 58-64-44-17-110Z" fill="#678f88" stroke="#a9bda0" stroke-width="9"/>
+  <path d="M342 250q52-40 100-8t36 104-55 58-64-44-17-110Z" fill="url(#water)"/>
+  <path d="m351 359-8-16m8 16 2-24m7 35-2-16m105-101 6-18m-6 18-4-22" stroke="#58794f" stroke-width="3" stroke-linecap="round"/>
+  <path d="M0 0h1200v700H0z" fill="url(#meadow)"/>
+  <path d="M95 500q-12 32 0 65" stroke="#eadfb8" stroke-width="15" stroke-linecap="round"/>
+  <use href="#pine" x="608" y="107"/><use href="#pine" x="648" y="84"/><use href="#pine" x="685" y="111"/>
+  <use href="#pine" x="53" y="166"/><use href="#pine" x="27" y="197"/><use href="#pine" x="83" y="206"/>
+  <use href="#pine" x="1145" y="447"/><use href="#pine" x="1180" y="471"/><use href="#pine" x="1121" y="488"/>
+  <use href="#pine" x="566" y="574"/><use href="#pine" x="606" y="599"/><use href="#pine" x="540" y="607"/>
+  <use href="#bush" x="468" y="327"/><use href="#bush" x="364" y="404"/><use href="#bush" x="728" y="183"/>
+  <use href="#bush" x="890" y="525"/><use href="#bush" x="51" y="615"/><use href="#bush" x="1035" y="53"/>
+  <g stroke="#758e65" stroke-width="2" stroke-linecap="round"><path d="m761 614 55 9m-59 6 55 9m-59 6 55 9m-59 6 55 9m-59 6 55 9m-45-66-11 61m26-59-11 61m26-59-11 61"/></g>
+  <g fill="#e3ca81"><circle cx="745" cy="597" r="3"/><circle cx="760" cy="594" r="3"/><circle cx="774" cy="600" r="3"/><circle cx="809" cy="604" r="3"/><circle cx="787" cy="593" r="3"/></g>
+  <!-- Pequenas construções apoiadas no terreno e conectadas à estrada. -->
+  <path d="M674 549q-16-46 29-111" stroke="#d7d1a1" stroke-width="10" stroke-linecap="round"/>
+  <path d="M674 549q-16-46 29-111" stroke="#a8ac7f" stroke-width="1.5" stroke-dasharray="2 6"/>
+  <use href="#reading-bench" x="674" y="554"/>
+  <use href="#ipe" x="725" y="584"/>
+  <use href="#ipe" x="115" y="331"/>
+  <use href="#ipe" x="1077" y="93" transform="translate(215 18) scale(.8)"/>
+  <g transform="translate(407 307) rotate(-17)">
+    <ellipse cy="12" rx="33" ry="7" fill="#b2c9af" opacity=".35"/>
+    <path d="M-27 0q27-21 54 0-27 22-54 0Z" fill="#bf8b55" stroke="#476f64" stroke-width="2"/>
+    <path d="M-16 0h32m-22-5v10m12-10v10" stroke="#f3dca5" stroke-width="2"/>
+    <path d="m-15-15 29 32m-4-5 8 9" stroke="#e8d5a5" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g fill="#4a6a55" font-family="Georgia,serif" font-style="italic" font-size="12" text-anchor="middle">
+    <text x="414" y="291" transform="rotate(-8 414 291)">Lago das ideias</text>
+    <text x="676" y="615">Recanto da leitura</text>
+  </g>
+  <g transform="translate(92 81)" stroke="#6e8868" stroke-width="1.5"><circle r="24"/><path d="M0-28v56m-28-28h56m-16-16L16 16m-32 0 32-32" stroke-opacity=".45"/><path d="m0-20 6 20-6-4-6 4Z" fill="#f2e5b7"/><path d="m0 20 6-20-6 4-6-4Z" fill="#738d69"/></g>
+  <path d="m576 300 15-4 9 6-16 4Zm-73 171 13 1 7 6-16-1Zm566-251 16-3 7 4-18 4Z" fill="#b9bd98" stroke="#789074" stroke-width="2"/>
+</svg>

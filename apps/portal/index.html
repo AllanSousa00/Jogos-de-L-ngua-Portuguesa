@@ -9,13 +9,6 @@
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <title>Jogos de Língua Portuguesa</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
     <script>
       (() => {
         try {
@@ -26,6 +19,7 @@
         }
       })();
     </script>
+    <link rel="preload" href="./fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
@@ -64,9 +58,13 @@
 
     <main class="portal-main" id="conteudo">
       <section class="hero-section" aria-labelledby="portal-title">
-        <h1 id="portal-title">Escolha um jogo</h1>
+        <p class="hero-eyebrow">
+          <span class="edition-mark" aria-hidden="true">Aa</span> Um caderno de descobertas
+        </p>
+        <h1 id="portal-title">Toda palavra<br />abre um <em>caminho.</em></h1>
         <p class="hero-subtitle">
-          Pratique Língua Portuguesa com atividades rápidas, organizadas em dois jogos independentes.
+          Entre pela curiosidade. Explore os sentidos das palavras no Quiz ou embarque pela Trilha das
+          Habilidades.
         </p>
         <p class="restriction-notice">Uso restrito a pessoas autorizadas por Allan Sousa.</p>
         <a class="hero-request" href="https://site-de-pedidos-pt.pages.dev/">
@@ -77,8 +75,51 @@
         </a>
       </section>
 
-      <section class="game-options" aria-label="Jogos disponiveis">
-        <a class="game-card" href="./Quiz-Portugues/">
+      <figure class="reading-room">
+        <img
+          src="./reading-room.svg"
+          width="820"
+          height="520"
+          alt="Um livro aberto sobre a mesa de uma biblioteca, com montanhas vistas pela janela."
+        />
+        <figcaption>
+          <span>Um espaço para descobrir palavras.</span><span>PORTUGUÊS EM JOGOS</span>
+        </figcaption>
+      </figure>
+      <section class="game-options" aria-label="Jogos disponíveis">
+        <a class="game-card game-card--quiz" href="./Quiz-Portugues/">
+          <div class="game-cover" aria-hidden="true">
+            <span class="cover-index">01 / OFICINA DE PALAVRAS</span>
+            <svg class="cover-art" viewBox="0 0 600 210" fill="none">
+              <defs>
+                <pattern id="quiz-grid" width="26" height="26" patternUnits="userSpaceOnUse">
+                  <path d="M26 0H0v26" stroke="currentColor" stroke-opacity=".12" />
+                </pattern>
+              </defs>
+              <path fill="url(#quiz-grid)" d="M0 0h600v210H0z" />
+              <g class="cover-letters" stroke="#e4c16e" stroke-width="2">
+                <path d="m139 61 64-10 10 79-64 10Z" fill="#f3e6ba" />
+                <path d="m213 49 64 5-6 79-64-5Z" fill="#e2b766" />
+                <path d="m285 58 64-6 8 79-64 6Z" fill="#f3e6ba" />
+                <path d="m359 54 64 9-11 78-64-9Z" fill="#e2b766" />
+                <g stroke="#274d59" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter">
+                  <path d="m166 77 5 35 24-4" />
+                  <path d="m258 76-24-2-3 36 24 2m-23-20 19 1" />
+                  <path d="m308 118-3-37 21-2 6 14-23 3m13-1 15 20" />
+                  <path d="m377 88q2-11 14-8t7 15l-11 6-1 5m-1 10 .1 1" />
+                </g>
+              </g>
+              <path d="M119 163q174 17 343-6" stroke="#e4c16e" stroke-width="2" stroke-dasharray="3 7" />
+              <g class="cover-pencil">
+                <path d="m434 128 48-73 14 10-48 73-15 9Z" fill="#c56f50" stroke="#edcb88" stroke-width="2" />
+                <path d="m434 128-1 19 15-9" fill="#f5dfac" />
+                <path d="m435 141-2 6 6-2" fill="#1a3540" />
+                <path d="m479 60 14 9" stroke="#f1dba2" stroke-width="4" />
+              </g>
+              <path d="m94 74 7-12 7 12-7 12Zm409 71 6-9 6 9-6 9Z" stroke="#edcb88" stroke-width="2" />
+            </svg>
+            <span class="cover-caption">Ler nas entrelinhas.</span>
+          </div>
           <div class="game-card-content">
             <div class="game-header">
               <span class="game-icon-container bg-quiz">
@@ -103,7 +144,50 @@
           </div>
         </a>
 
-        <a class="game-card" href="./Trilha-das-Habilidades/">
+        <a class="game-card game-card--trilha" href="./Trilha-das-Habilidades/">
+          <div class="game-cover" aria-hidden="true">
+            <span class="cover-index">02 / EXPEDIÇÃO PELA LÍNGUA</span>
+            <svg class="cover-art" viewBox="0 0 600 210" fill="none">
+              <path
+                d="m0 117 87-55 65 42 77-62 79 58 81-52 97 73 59-57 55 45v101H0Z"
+                fill="#63836b"
+                opacity=".55"
+              />
+              <path d="M0 168q104-49 211-6t211-6 178 3v51H0Z" fill="#92a278" opacity=".45" />
+              <path
+                class="cover-route"
+                d="M98 190c-9-54 148-19 149-61S127 98 194 77s158 22 202-6"
+                stroke="#efd6a0"
+                stroke-width="19"
+                stroke-linecap="round"
+              />
+              <path
+                d="M98 190c-9-54 148-19 149-61S127 98 194 77s158 22 202-6"
+                stroke="#55745b"
+                stroke-width="2"
+                stroke-dasharray="4 7"
+              />
+              <g fill="#294f43" stroke="#9eb28a" stroke-width="2">
+                <path d="m74 94-23 45h46Zm418 7-26 48h52Zm-49-56-16 31h32Z" />
+                <path d="M74 138v15m418-4v15m-49-88v12" />
+              </g>
+              <g class="cover-bus" transform="translate(277 126)">
+                <path d="M0 7h55l11 15v26H0Z" fill="#e7b760" stroke="#284d43" stroke-width="3" />
+                <path d="M6 13h42v18H6Zm47 2 8 12h-8Z" fill="#bdd8ce" stroke="#284d43" stroke-width="2" />
+                <path d="M9 38h32" stroke="#284d43" stroke-width="2" />
+                <circle cx="14" cy="49" r="7" fill="#284d43" stroke="#f6e4b8" stroke-width="3" />
+                <circle cx="53" cy="49" r="7" fill="#284d43" stroke="#f6e4b8" stroke-width="3" />
+                <path d="M10 7V1h30v6" stroke="#e7b760" stroke-width="4" />
+              </g>
+              <g transform="translate(402 45)">
+                <path d="M0 0v40" stroke="#f3dfb3" stroke-width="3" />
+                <path d="M2 0h29l-6 10 6 10H2Z" fill="#d58a65" />
+                <path d="M6 5h5v5H6Zm5 5h5v5h-5Zm5-5h5v5h-5Z" fill="#f6dfae" />
+              </g>
+              <circle cx="521" cy="51" r="15" fill="#e7b760" />
+            </svg>
+            <span class="cover-caption">Aprender é seguir viagem.</span>
+          </div>
           <div class="game-card-content">
             <div class="game-header">
               <span class="game-icon-container bg-trilha">
@@ -131,6 +215,9 @@
           </div>
         </a>
       </section>
+      <p class="portal-note">
+        <span>Dois jogos. Diferentes jeitos de aprender.</span><span>Allan Sousa · Língua Portuguesa</span>
+      </p>
     </main>
 
     <script>

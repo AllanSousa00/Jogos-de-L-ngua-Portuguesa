@@ -25,6 +25,12 @@ module.exports = [
     }
   },
   {
+    files: ["apps/trilha-das-habilidades/route-motion.js"],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.browser }
+    }
+  },
+  {
     files: ["tests/**/*.js"],
     languageOptions: {
       globals: {

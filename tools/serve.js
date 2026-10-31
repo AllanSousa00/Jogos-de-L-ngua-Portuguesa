@@ -9,7 +9,7 @@ const requestedRoot = process.argv[2] || ".";
 const root = path.resolve(process.cwd(), requestedRoot);
 const projectRoot = path.resolve(__dirname, "..");
 const host = process.env.HOST || "127.0.0.1";
-const port = Number(process.env.PORT || 4173);
+const port = Number(process.env.PORT || 4180);
 
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
@@ -20,7 +20,9 @@ const contentTypes = {
   ".md": "text/markdown; charset=utf-8",
   ".mp4": "video/mp4",
   ".png": "image/png",
-  ".svg": "image/svg+xml"
+  ".svg": "image/svg+xml",
+  ".woff2": "font/woff2",
+  ".txt": "text/plain; charset=utf-8"
 };
 
 function resolveDevelopmentAlias(safePath) {
@@ -42,7 +44,12 @@ function resolveDevelopmentAlias(safePath) {
 }
 
 function resolveFile(urlPath) {
-  const safePath = decodeURIComponent(urlPath.split("?")[0]).replace(/^\/+/, "");
+  let safePath;
+  try {
+    safePath = decodeURIComponent(urlPath.split("?")[0]).replace(/^\/+/, "");
+  } catch {
+    return null;
+  }
   const relativePath = resolveDevelopmentAlias(safePath || "index.html");
   let target = path.resolve(root, relativePath);
 
@@ -68,6 +75,7 @@ const server = http.createServer((request, response) => {
 
   const contentType = contentTypes[path.extname(target).toLowerCase()] || "application/octet-stream";
   response.writeHead(200, {
+    "X-Project": "portugues-em-jogos",
     "Content-Type": contentType,
     "Cache-Control": "no-cache"
   });
@@ -76,4 +84,28 @@ const server = http.createServer((request, response) => {
 
 server.listen(port, host, () => {
   console.log(`Servidor disponivel em http://${host}:${port}/ a partir de ${root}`);
+});
+
+server.on("error", (error) => {
+  if (error.code !== "EADDRINUSE") {
+    console.error("Não foi possível iniciar o servidor:", error.message);
+    process.exitCode = 1;
+    return;
+  }
+  const request = http.get(`http://${host}:${port}/`, (response) => {
+    response.resume();
+    if (response.headers["x-project"] === "portugues-em-jogos") {
+      console.log(`O jogo já está aberto em http://${host}:${port}/`);
+    } else {
+      console.error(`A porta ${port} está em uso por outro projeto. Escolha outra porta com PORT.`);
+      process.exitCode = 1;
+    }
+  });
+  request.on("error", () => {
+    console.error(
+      `A porta ${port} está ocupada. Encerre o servidor anterior ou escolha outra porta com PORT.`
+    );
+    process.exitCode = 1;
+  });
+  request.setTimeout(1000, () => request.destroy());
 });

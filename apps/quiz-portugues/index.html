@@ -1,361 +1,618 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#16378d">
-  <meta name="description" content="Quiz educacional de Língua Portuguesa com feedback, revisão de erros e modo professor.">
-  <meta name="application-name" content="Quiz Português">
-  <meta name="color-scheme" content="light dark">
-  <title>Quiz sobre Língua Portuguesa</title>
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body data-theme="light">
-  <div class="app" id="app-root">
-    <section class="screen is-active" data-screen="home" aria-labelledby="home-title">
-      <div class="screen-shell screen-shell--home">
-        <div class="flag-badge" aria-hidden="true">
-          <svg class="flag-badge__svg" viewBox="0 0 220 160" role="presentation">
-            <g transform="rotate(-16 110 80)">
-              <rect x="24" y="20" width="172" height="120" rx="2" fill="#00a83b"></rect>
-              <polygon points="110,38 168,80 110,122 52,80" fill="#ffdf1c"></polygon>
-              <circle cx="110" cy="80" r="30" fill="#123b91"></circle>
-              <path d="M82 72c12-7 44-8 58 2" fill="none" stroke="#f8f8f8" stroke-width="7"></path>
-              <g fill="#f8f8f8">
-                <circle cx="100" cy="70" r="1.8"></circle>
-                <circle cx="117" cy="65" r="1.8"></circle>
-                <circle cx="127" cy="79" r="1.8"></circle>
-                <circle cx="95" cy="88" r="1.8"></circle>
-                <circle cx="109" cy="94" r="1.8"></circle>
-                <circle cx="122" cy="89" r="1.8"></circle>
-                <circle cx="88" cy="80" r="1.8"></circle>
-                <circle cx="132" cy="71" r="1.8"></circle>
-                <circle cx="104" cy="59" r="1.8"></circle>
-              </g>
-            </g>
-          </svg>
-        </div>
-
-        <header class="title-block title-block--home">
-          <h1 id="home-title" tabindex="-1" data-focus-anchor="home">Quiz sobre Língua Portuguesa</h1>
-          <div class="chalk-line" aria-hidden="true"></div>
-        </header>
-
-        <div class="home-meta" aria-live="polite">
-          <p id="question-total-label" class="home-meta__pill">4 perguntas prontas</p>
-        </div>
-
-        <section id="resume-panel" class="resume-panel" hidden aria-live="polite">
-          <h2 class="resume-panel__title">Continuar de onde parou?</h2>
-          <p id="resume-text" class="resume-panel__text">Sua última partida está pronta para continuar.</p>
-          <div class="resume-actions">
-            <button id="continue-button" class="menu-button menu-button--compact" type="button">Continuar</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3ead5" />
+    <meta
+      name="description"
+      content="Quiz educacional de Língua Portuguesa com feedback, revisão de erros e modo professor."
+    />
+    <meta name="application-name" content="Quiz Português" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Quiz sobre Língua Portuguesa</title>
+    <link rel="preload" href="./fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body data-theme="light">
+    <div class="app" id="app-root" role="main" aria-label="Quiz Português">
+      <section class="screen is-active" data-screen="home" aria-labelledby="home-title">
+        <div class="screen-shell screen-shell--home">
+          <div class="quiz-cover-art" aria-hidden="true">
+            <img src="./word-workshop.svg" width="640" height="640" alt="" />
           </div>
-        </section>
+          <div class="edition-badge" aria-hidden="true">
+            <svg class="edition-badge__svg" viewBox="0 0 120 120" role="presentation">
+              <g transform="rotate(-9 60 60)">
+                <rect
+                  x="15"
+                  y="17"
+                  width="90"
+                  height="86"
+                  rx="8"
+                  fill="#e9c574"
+                  stroke="#203c48"
+                  stroke-width="5"
+                ></rect>
+                <path d="M24 27h72v66H24z" fill="#f7edda" stroke="#a88545" stroke-width="2"></path>
+                <path d="M31 34h58" stroke="#c5a867" stroke-width="2" stroke-dasharray="2 4"></path>
+                <text
+                  x="60"
+                  y="73"
+                  fill="#203c48"
+                  font-family="Georgia,serif"
+                  font-size="34"
+                  font-weight="700"
+                  letter-spacing="-3"
+                  text-anchor="middle"
+                >
+                  Aa
+                </text>
+                <path d="M38 81h44" stroke="#b45f45" stroke-width="3" stroke-linecap="round"></path>
+              </g>
+            </svg>
+          </div>
 
-        <div class="menu-grid menu-grid--home">
-          <button id="start-button" class="menu-button menu-button--home" type="button">
-            <span class="icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path d="M8.5 6.8a1 1 0 0 1 1.52-.86l7.66 5.2a1 1 0 0 1 0 1.72l-7.66 5.2A1 1 0 0 1 8.5 17.2z" fill="currentColor"></path>
-              </svg>
-            </span>
-            <span id="start-button-label" class="menu-button__label">Iniciar</span>
-          </button>
-
-          <button id="home-exit-button" class="menu-button menu-button--home" type="button">
-            <span class="icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M13.5 6 7.5 12l6 6" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path d="M8.2 12H18" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"></path>
-              </svg>
-            </span>
-            <span class="menu-button__label">Sair</span>
-          </button>
-
-          <button id="open-settings-button" class="menu-button menu-button--wide" type="button">
-            <span class="icon-glyph" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M12 2.5v2.2m0 14.6v2.2M4.98 4.98l1.56 1.56m10.92 10.92 1.56 1.56M2.5 12h2.2m14.6 0h2.2M4.98 19.02l1.56-1.56m10.92-10.92 1.56-1.56" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-                <circle cx="12" cy="12" r="4.6" stroke="currentColor" stroke-width="2"></circle>
-              </svg>
-            </span>
-            <span class="menu-button__label">Configurações</span>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen" data-screen="settings" aria-labelledby="settings-title">
-      <div class="screen-shell screen-shell--settings">
-        <div class="top-bar">
-          <button id="settings-back-button" class="menu-button menu-button--back" type="button" data-focus-anchor="settings">
-            <span class="icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M13.5 6 7.5 12l6 6" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path d="M8.2 12H18" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"></path>
-              </svg>
-            </span>
-            <span class="menu-button__label">Sair</span>
-          </button>
-        </div>
-
-        <h1 id="settings-title" class="sr-only">Configurações</h1>
-
-        <div class="settings-stack">
-          <button id="music-toggle-button" class="menu-button menu-button--setting" type="button" aria-pressed="true">
-            <span id="music-icon" class="icon-glyph icon-glyph--large" aria-hidden="true"></span>
-            <span id="music-label" class="menu-button__label">Música Ligada</span>
-          </button>
-
-          <button id="theme-toggle-button" class="menu-button menu-button--setting" type="button" aria-pressed="false">
-            <span class="icon-glyph icon-glyph--large" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M8 7 3.5 11.5 8 16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path d="M3.8 11.5h8.4" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path>
-                <path d="M16 8 20.5 12.5 16 17" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path d="M11.8 12.5h8.4" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path>
-              </svg>
-            </span>
-            <span id="theme-toggle-label" class="menu-button__label">Ativar Modo Dark</span>
-          </button>
-
-          <button id="shuffle-questions-button" class="menu-button menu-button--setting" type="button" aria-pressed="true">
-            <span class="icon-glyph icon-glyph--large" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M4 7h3l3.4 4.1M4 17h3l3.4-4.1M14 7h1.6c2.7 0 4.9 2.2 4.9 4.9v0c0 2.7-2.2 4.9-4.9 4.9H14M17 5l3 2-3 2M17 15l3 2-3 2" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </span>
-            <span id="shuffle-questions-label" class="menu-button__label">Perguntas Embaralhadas</span>
-          </button>
-
-          <button id="shuffle-options-button" class="menu-button menu-button--setting" type="button" aria-pressed="true">
-            <span class="icon-glyph icon-glyph--large" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M5 7h8M5 12h14M5 17h10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
-                <circle cx="17.5" cy="7" r="1.6" fill="currentColor"></circle>
-                <circle cx="11.5" cy="17" r="1.6" fill="currentColor"></circle>
-              </svg>
-            </span>
-            <span id="shuffle-options-label" class="menu-button__label">Alternativas Embaralhadas</span>
-          </button>
-
-          <button id="fullscreen-button" class="menu-button menu-button--setting" type="button" aria-pressed="false">
-            <span class="icon-glyph icon-glyph--large" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M8 3.5H3.5V8M16 3.5h4.5V8M8 20.5H3.5V16M16 20.5h4.5V16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path d="M9 7 4 7M20 7l-5 0M9 17l-5 0M20 17l-5 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
-              </svg>
-            </span>
-            <span id="fullscreen-label" class="menu-button__label">Entrar em Tela Cheia</span>
-          </button>
-
-          <button id="teacher-mode-button" class="menu-button menu-button--setting" type="button">
-            <span class="icon-glyph icon-glyph--large" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M4.5 7.5 12 4l7.5 3.5L12 11zM7 10.2v4.3c0 1.8 2.2 3.3 5 3.3s5-1.5 5-3.3v-4.3" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"></path>
-                <path d="M19.5 7.5v5" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"></path>
-              </svg>
-            </span>
-            <span class="menu-button__label">Modo Professor</span>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen" data-screen="quiz" aria-labelledby="question-counter">
-      <div class="screen-shell screen-shell--quiz">
-        <div id="quiz-stage" class="quiz-stage">
-          <p id="question-counter" class="quiz-counter" tabindex="-1" data-focus-anchor="quiz">Pergunta 1 de 4</p>
-
-          <header class="title-block title-block--question">
-            <h2 id="question-text" aria-live="polite"></h2>
-            <div class="chalk-line chalk-line--question" aria-hidden="true"></div>
+          <header class="title-block title-block--home">
+            <p class="cover-kicker">
+              <span class="workshop-number" aria-hidden="true">01</span> Oficina de palavras
+            </p>
+            <h1 id="home-title" tabindex="-1" data-focus-anchor="home">Quiz sobre Língua Portuguesa</h1>
+            <p class="cover-description">
+              Leia com atenção, escolha sua resposta e descubra o porquê de cada alternativa.
+            </p>
+            <div class="chalk-line" aria-hidden="true"></div>
           </header>
 
-          <div id="options-list" class="options-grid" role="list" aria-label="Alternativas da pergunta"></div>
-
-          <div id="feedback-panel" class="feedback-panel" hidden aria-live="polite">
-            <p id="feedback-title" class="feedback-panel__title"></p>
-            <p id="feedback-text" class="feedback-panel__text"></p>
+          <div class="home-meta" aria-live="polite">
+            <p id="question-total-label" class="home-meta__pill">14 perguntas prontas</p>
           </div>
 
-          <div class="quiz-actions">
-            <button id="next-button" class="menu-button menu-button--compact" type="button" hidden disabled>Próxima</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen" data-screen="result" aria-labelledby="result-title">
-      <div class="screen-shell screen-shell--result">
-        <header class="title-block title-block--result">
-          <p class="result-kicker">Resultado Final</p>
-          <h2 id="result-title" tabindex="-1" data-focus-anchor="result">Você concluiu o quiz</h2>
-          <div class="chalk-line chalk-line--result" aria-hidden="true"></div>
-        </header>
-
-        <section class="result-highlight" aria-live="polite">
-          <small id="performance-label" class="performance-label">Excelente</small>
-          <span id="final-score">0/4</span>
-          <strong id="final-percent">0% de acertos</strong>
-          <p id="result-message"></p>
-        </section>
-
-        <section id="errors-review-section" class="review-section" hidden>
-          <h3>Erros para estudar depois</h3>
-          <div id="errors-review-list" class="review-list"></div>
-        </section>
-
-        <div id="summary-list" class="summary-list"></div>
-
-        <div class="menu-grid menu-grid--result">
-          <button id="restart-button" class="menu-button menu-button--home" type="button">
-            <span class="icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M6 12a6 6 0 1 0 1.76-4.24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></path>
-                <path d="M5 7.5h4v4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </span>
-            <span class="menu-button__label">Jogar de Novo</span>
-          </button>
-
-          <button id="result-home-button" class="menu-button menu-button--home" type="button">
-            <span class="icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M12 5.5 5.2 10.8v7.2h4.6v-4.4h4.4v4.4h4.6v-7.2z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"></path>
-              </svg>
-            </span>
-            <span class="menu-button__label">Início</span>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen" data-screen="exit" aria-labelledby="exit-screen-title">
-      <div class="screen-shell screen-shell--result">
-        <header class="title-block title-block--result">
-          <p class="result-kicker">Até Logo</p>
-          <h2 id="exit-screen-title" tabindex="-1" data-focus-anchor="exit">Você pode fechar esta aba com segurança.</h2>
-          <div class="chalk-line chalk-line--result" aria-hidden="true"></div>
-        </header>
-
-        <section class="result-highlight">
-          <small class="performance-label">Quiz Encerrado</small>
-          <span>Obrigado</span>
-          <p>Se preferir continuar usando o app, volte para a tela inicial.</p>
-        </section>
-
-        <div class="menu-grid menu-grid--result">
-          <button id="exit-home-button" class="menu-button menu-button--home" type="button">
-            <span class="icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M12 5.5 5.2 10.8v7.2h4.6v-4.4h4.4v4.4h4.6v-7.2z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"></path>
-              </svg>
-            </span>
-            <span class="menu-button__label">Voltar ao Início</span>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <div id="confirm-modal" class="modal-backdrop" hidden>
-      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
-        <h2 id="confirm-modal-title">Confirmar ação</h2>
-        <p id="confirm-modal-text">Deseja continuar?</p>
-        <div class="modal-actions">
-          <button id="confirm-modal-cancel" class="menu-button menu-button--compact menu-button--ghost" type="button">Cancelar</button>
-          <button id="confirm-modal-confirm" class="menu-button menu-button--compact" type="button">Confirmar</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="teacher-modal" class="modal-backdrop" hidden>
-      <div class="modal-card modal-card--teacher" role="dialog" aria-modal="true" aria-labelledby="teacher-modal-title">
-        <div class="teacher-header">
-          <div>
-            <h2 id="teacher-modal-title">Modo Professor</h2>
-            <p class="teacher-note">Cadastre novas perguntas e use JSON para crescer o quiz sem mexer no código.</p>
-          </div>
-          <button id="teacher-close-button" class="menu-button menu-button--compact menu-button--ghost" type="button">Fechar</button>
-        </div>
-
-        <div class="teacher-toolbar">
-          <span id="teacher-bank-count" class="teacher-count">4 perguntas no banco</span>
-          <div class="teacher-toolbar__actions">
-            <button id="teacher-export-button" class="menu-button menu-button--compact menu-button--ghost" type="button">Exportar JSON</button>
-            <button id="teacher-import-button" class="menu-button menu-button--compact" type="button">Importar JSON</button>
-          </div>
-        </div>
-
-        <div class="teacher-layout">
-          <section class="teacher-panel teacher-panel--editor" aria-labelledby="teacher-editor-title">
-            <h3 id="teacher-editor-title" class="teacher-section-title">Nova pergunta</h3>
-
-            <div class="teacher-form">
-              <label class="teacher-field teacher-field--full">
-                <span>Enunciado</span>
-                <textarea id="teacher-prompt" rows="4" placeholder="Digite a pergunta"></textarea>
-              </label>
-
-              <label class="teacher-field">
-                <span>Alternativa a)</span>
-                <input id="teacher-option-a" type="text" placeholder="Primeira alternativa">
-              </label>
-
-              <label class="teacher-field">
-                <span>Alternativa b)</span>
-                <input id="teacher-option-b" type="text" placeholder="Segunda alternativa">
-              </label>
-
-              <label class="teacher-field">
-                <span>Alternativa c)</span>
-                <input id="teacher-option-c" type="text" placeholder="Terceira alternativa">
-              </label>
-
-              <label class="teacher-field">
-                <span>Alternativa d)</span>
-                <input id="teacher-option-d" type="text" placeholder="Quarta alternativa">
-              </label>
-
-              <label class="teacher-field">
-                <span>Resposta correta</span>
-                <select id="teacher-answer">
-                  <option value="0">a)</option>
-                  <option value="1">b)</option>
-                  <option value="2">c)</option>
-                  <option value="3">d)</option>
-                </select>
-              </label>
-
-              <label class="teacher-field teacher-field--full">
-                <span>Explicação</span>
-                <textarea id="teacher-explanation" rows="3" placeholder="Explique por que a resposta está certa"></textarea>
-              </label>
+          <section id="resume-panel" class="resume-panel" hidden aria-live="polite">
+            <h2 class="resume-panel__title">Continuar de onde parou?</h2>
+            <p id="resume-text" class="resume-panel__text">Sua última partida está pronta para continuar.</p>
+            <div class="resume-actions">
+              <button id="continue-button" class="menu-button menu-button--compact" type="button">
+                Continuar
+              </button>
             </div>
-
-            <div class="teacher-actions">
-              <button id="teacher-add-button" class="menu-button menu-button--compact" type="button">Adicionar Pergunta</button>
-            </div>
-
-            <p id="teacher-status" class="teacher-status" aria-live="polite"></p>
           </section>
 
-          <section class="teacher-panel teacher-panel--bank teacher-bank" aria-labelledby="teacher-bank-title">
-            <div class="teacher-bank__header">
-              <h3 id="teacher-bank-title">Questões personalizadas</h3>
-              <p class="teacher-bank__note">As perguntas cadastradas entram na próxima nova partida.</p>
+          <div class="menu-grid menu-grid--home">
+            <button id="start-button" class="menu-button menu-button--home" type="button">
+              <span class="icon-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M8.5 6.8a1 1 0 0 1 1.52-.86l7.66 5.2a1 1 0 0 1 0 1.72l-7.66 5.2A1 1 0 0 1 8.5 17.2z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </span>
+              <span id="start-button-label" class="menu-button__label">Iniciar</span>
+            </button>
+
+            <button id="home-exit-button" class="menu-button menu-button--home" type="button">
+              <span class="icon-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M13.5 6 7.5 12l6 6"
+                    stroke="currentColor"
+                    stroke-width="2.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                  <path d="M8.2 12H18" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"></path>
+                </svg>
+              </span>
+              <span class="menu-button__label">Sair</span>
+            </button>
+
+            <button id="open-settings-button" class="menu-button menu-button--wide" type="button">
+              <span class="icon-glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 2.5v2.2m0 14.6v2.2M4.98 4.98l1.56 1.56m10.92 10.92 1.56 1.56M2.5 12h2.2m14.6 0h2.2M4.98 19.02l1.56-1.56m10.92-10.92 1.56-1.56"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  ></path>
+                  <circle cx="12" cy="12" r="4.6" stroke="currentColor" stroke-width="2"></circle>
+                </svg>
+              </span>
+              <span class="menu-button__label">Configurações</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="settings" aria-labelledby="settings-title">
+        <div class="screen-shell screen-shell--settings">
+          <div class="top-bar">
+            <button
+              id="settings-back-button"
+              class="menu-button menu-button--back"
+              type="button"
+              data-focus-anchor="settings"
+            >
+              <span class="icon-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M13.5 6 7.5 12l6 6"
+                    stroke="currentColor"
+                    stroke-width="2.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                  <path d="M8.2 12H18" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"></path>
+                </svg>
+              </span>
+              <span class="menu-button__label">Voltar</span>
+              <kbd class="settings-back-shortcut" aria-hidden="true">Esc</kbd>
+            </button>
+          </div>
+
+          <h1 id="settings-title">Configurações</h1>
+
+          <div class="settings-stack settings-worksheet">
+            <fieldset class="settings-group">
+              <legend><span aria-hidden="true">01</span> Som da oficina</legend>
+              <button
+                id="music-toggle-button"
+                class="menu-button menu-button--setting"
+                type="button"
+                aria-pressed="true"
+              >
+                <span id="music-icon" class="icon-glyph icon-glyph--large" aria-hidden="true"></span>
+                <span id="music-label" class="menu-button__label">Música Ligada</span>
+              </button>
+              <label class="volume-row"
+                ><span>Volume</span><output id="quiz-volume-value" for="quiz-volume">70%</output
+                ><input
+                  id="quiz-volume"
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="5"
+                  value="70"
+                  aria-label="Volume"
+              /></label>
+            </fieldset>
+            <fieldset class="settings-group">
+              <legend><span aria-hidden="true">02</span> Aparência</legend>
+              <button
+                id="theme-toggle-button"
+                class="menu-button menu-button--setting"
+                type="button"
+                aria-pressed="false"
+              >
+                <span class="icon-glyph icon-glyph--large" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M8 7 3.5 11.5 8 16"
+                      stroke="currentColor"
+                      stroke-width="2.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                    <path
+                      d="M3.8 11.5h8.4"
+                      stroke="currentColor"
+                      stroke-width="2.6"
+                      stroke-linecap="round"
+                    ></path>
+                    <path
+                      d="M16 8 20.5 12.5 16 17"
+                      stroke="currentColor"
+                      stroke-width="2.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                    <path
+                      d="M11.8 12.5h8.4"
+                      stroke="currentColor"
+                      stroke-width="2.6"
+                      stroke-linecap="round"
+                    ></path>
+                  </svg>
+                </span>
+                <span id="theme-toggle-label" class="menu-button__label">Tema escuro</span>
+              </button>
+              <button
+                id="fullscreen-button"
+                class="menu-button menu-button--setting"
+                type="button"
+                aria-pressed="false"
+              >
+                <span class="icon-glyph icon-glyph--large" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M8 3.5H3.5V8M16 3.5h4.5V8M8 20.5H3.5V16M16 20.5h4.5V16"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                    <path
+                      d="M9 7 4 7M20 7l-5 0M9 17l-5 0M20 17l-5 0"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                    ></path>
+                  </svg>
+                </span>
+                <span id="fullscreen-label" class="menu-button__label">Tela cheia</span>
+              </button>
+            </fieldset>
+            <fieldset class="settings-group">
+              <legend><span aria-hidden="true">03</span> Ordem da partida</legend>
+              <button
+                id="shuffle-questions-button"
+                class="menu-button menu-button--setting"
+                type="button"
+                aria-pressed="true"
+              >
+                <span class="icon-glyph icon-glyph--large" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M4 7h3l3.4 4.1M4 17h3l3.4-4.1M14 7h1.6c2.7 0 4.9 2.2 4.9 4.9v0c0 2.7-2.2 4.9-4.9 4.9H14M17 5l3 2-3 2M17 15l3 2-3 2"
+                      stroke="currentColor"
+                      stroke-width="2.1"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                </span>
+                <span id="shuffle-questions-label" class="menu-button__label">Embaralhar perguntas</span>
+              </button>
+              <button
+                id="shuffle-options-button"
+                class="menu-button menu-button--setting"
+                type="button"
+                aria-pressed="true"
+              >
+                <span class="icon-glyph icon-glyph--large" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M5 7h8M5 12h14M5 17h10"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                    ></path>
+                    <circle cx="17.5" cy="7" r="1.6" fill="currentColor"></circle>
+                    <circle cx="11.5" cy="17" r="1.6" fill="currentColor"></circle>
+                  </svg>
+                </span>
+                <span id="shuffle-options-label" class="menu-button__label">Embaralhar alternativas</span>
+              </button>
+            </fieldset>
+            <fieldset class="settings-group">
+              <legend><span aria-hidden="true">04</span> Para a sua turma</legend>
+              <p class="settings-caption">Prepare um banco de perguntas para a sua turma.</p>
+              <button id="teacher-mode-button" class="menu-button menu-button--setting" type="button">
+                <span class="icon-glyph icon-glyph--large" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M4.5 7.5 12 4l7.5 3.5L12 11zM7 10.2v4.3c0 1.8 2.2 3.3 5 3.3s5-1.5 5-3.3v-4.3"
+                      stroke="currentColor"
+                      stroke-width="2.1"
+                      stroke-linejoin="round"
+                    ></path>
+                    <path
+                      d="M19.5 7.5v5"
+                      stroke="currentColor"
+                      stroke-width="2.1"
+                      stroke-linecap="round"
+                    ></path>
+                  </svg>
+                </span>
+                <span class="menu-button__label">Modo Professor</span>
+              </button>
+            </fieldset>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="quiz" aria-labelledby="question-counter">
+        <div class="screen-shell screen-shell--quiz">
+          <div id="quiz-stage" class="quiz-stage">
+            <div class="quiz-counter-row">
+              <div class="quiz-page-heading">
+                <span class="quiz-imprint">Oficina de palavras</span>
+                <p id="question-counter" class="quiz-counter" tabindex="-1" data-focus-anchor="quiz">
+                  Pergunta 1 de 14
+                </p>
+              </div>
+              <button
+                id="quiz-sound-button"
+                class="quiz-tool"
+                type="button"
+                aria-pressed="false"
+                aria-label="Silenciar som"
+              >
+                <span aria-hidden="true">♪</span>
+              </button>
             </div>
-            <div id="teacher-custom-list" class="teacher-custom-list"></div>
+            <div
+              id="quiz-progress"
+              class="quiz-progress"
+              role="progressbar"
+              aria-label="Perguntas respondidas"
+              aria-valuemin="0"
+              aria-valuemax="14"
+              aria-valuenow="0"
+            >
+              <span id="quiz-progress-fill"></span>
+            </div>
+
+            <header class="title-block title-block--question">
+              <h2 id="question-text" aria-live="polite"></h2>
+              <div class="chalk-line chalk-line--question" aria-hidden="true"></div>
+            </header>
+
+            <div
+              id="options-list"
+              class="options-grid"
+              role="list"
+              aria-label="Alternativas da pergunta"
+            ></div>
+
+            <div id="feedback-panel" class="feedback-panel" hidden aria-live="polite">
+              <p id="feedback-title" class="feedback-panel__title"></p>
+              <p id="feedback-text" class="feedback-panel__text"></p>
+            </div>
+
+            <p class="quiz-input-note">
+              <span>Escolha uma alternativa.</span>
+              <span class="quiz-keyboard-note">No teclado: <kbd>A</kbd> a <kbd>D</kbd></span>
+            </p>
+            <div class="quiz-actions">
+              <button id="next-button" class="menu-button menu-button--compact" type="button" hidden disabled>
+                Próxima
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="result" aria-labelledby="result-title">
+        <div class="screen-shell screen-shell--result">
+          <header class="title-block title-block--result">
+            <p class="result-kicker">Resultado Final</p>
+            <h2 id="result-title" tabindex="-1" data-focus-anchor="result">Você concluiu o quiz</h2>
+            <div class="chalk-line chalk-line--result" aria-hidden="true"></div>
+          </header>
+
+          <section class="result-highlight" aria-live="polite">
+            <svg class="reading-seal" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+              <circle cx="60" cy="60" r="52" stroke="currentColor" stroke-width="1.5" />
+              <circle cx="60" cy="60" r="45" stroke="currentColor" stroke-dasharray="2 5" />
+              <path
+                d="M31 43c11-4 21-1 29 6 8-7 18-10 29-6v36c-11-4-21-1-29 6-8-7-18-10-29-6V43Zm29 6v36M38 51l13 4M38 60l13 4m18-9 13-4m-13 13 13-4"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"
+              />
+              <path d="m50 27 4-5 6 4 6-4 4 5" stroke="currentColor" stroke-width="2" />
+            </svg>
+            <small id="performance-label" class="performance-label">Excelente</small>
+            <span id="final-score">0/14</span>
+            <strong id="final-percent">0% de acertos</strong>
+            <p id="result-message"></p>
           </section>
+
+          <div class="menu-grid menu-grid--result">
+            <button id="restart-button" class="menu-button menu-button--home" type="button">
+              <span class="icon-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M6 12a6 6 0 1 0 1.76-4.24"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                  ></path>
+                  <path
+                    d="M5 7.5h4v4"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+              </span>
+              <span class="menu-button__label">Jogar de Novo</span>
+            </button>
+
+            <button id="result-home-button" class="menu-button menu-button--home" type="button">
+              <span class="icon-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 5.5 5.2 10.8v7.2h4.6v-4.4h4.4v4.4h4.6v-7.2z"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+              </span>
+              <span class="menu-button__label">Início</span>
+            </button>
+          </div>
+
+          <details id="errors-review-section" class="review-section" hidden>
+            <summary>Erros para estudar depois</summary>
+            <div id="errors-review-list" class="review-list"></div>
+          </details>
+
+          <div id="summary-list" class="summary-list"></div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="exit" aria-labelledby="exit-screen-title">
+        <div class="screen-shell screen-shell--result">
+          <header class="title-block title-block--result">
+            <p class="result-kicker">Até Logo</p>
+            <h2 id="exit-screen-title" tabindex="-1" data-focus-anchor="exit">
+              Você pode fechar esta aba com segurança.
+            </h2>
+            <div class="chalk-line chalk-line--result" aria-hidden="true"></div>
+          </header>
+
+          <section class="result-highlight">
+            <small class="performance-label">Quiz Encerrado</small>
+            <span>Obrigado</span>
+            <p>Se preferir continuar usando o app, volte para a tela inicial.</p>
+          </section>
+
+          <div class="menu-grid menu-grid--result">
+            <button id="exit-home-button" class="menu-button menu-button--home" type="button">
+              <span class="icon-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 5.5 5.2 10.8v7.2h4.6v-4.4h4.4v4.4h4.6v-7.2z"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+              </span>
+              <span class="menu-button__label">Voltar ao Início</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div id="confirm-modal" class="modal-backdrop" hidden>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+          <h2 id="confirm-modal-title">Confirmar ação</h2>
+          <p id="confirm-modal-text">Deseja continuar?</p>
+          <div class="modal-actions">
+            <button
+              id="confirm-modal-cancel"
+              class="menu-button menu-button--compact menu-button--ghost"
+              type="button"
+            >
+              Cancelar
+            </button>
+            <button id="confirm-modal-confirm" class="menu-button menu-button--compact" type="button">
+              Confirmar
+            </button>
+          </div>
         </div>
       </div>
+
+      <div id="teacher-modal" class="modal-backdrop" hidden>
+        <div
+          class="modal-card modal-card--teacher"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="teacher-modal-title"
+        >
+          <div class="teacher-header">
+            <div>
+              <h2 id="teacher-modal-title">Modo Professor</h2>
+              <p class="teacher-note">Cadastre perguntas para sua turma ou importe um banco em JSON.</p>
+            </div>
+            <button
+              id="teacher-close-button"
+              class="menu-button menu-button--compact menu-button--ghost"
+              type="button"
+            >
+              Fechar
+            </button>
+          </div>
+
+          <div class="teacher-toolbar">
+            <span id="teacher-bank-count" class="teacher-count">14 perguntas no banco</span>
+            <div class="teacher-toolbar__actions">
+              <button
+                id="teacher-export-button"
+                class="menu-button menu-button--compact menu-button--ghost"
+                type="button"
+              >
+                Exportar JSON
+              </button>
+              <button id="teacher-import-button" class="menu-button menu-button--compact" type="button">
+                Importar JSON
+              </button>
+            </div>
+          </div>
+
+          <div class="teacher-layout">
+            <section class="teacher-panel teacher-panel--editor" aria-labelledby="teacher-editor-title">
+              <h3 id="teacher-editor-title" class="teacher-section-title">Nova pergunta</h3>
+
+              <div class="teacher-form">
+                <label class="teacher-field teacher-field--full">
+                  <span>Enunciado</span>
+                  <textarea id="teacher-prompt" rows="4" placeholder="Digite a pergunta"></textarea>
+                </label>
+
+                <label class="teacher-field">
+                  <span>Alternativa a)</span>
+                  <input id="teacher-option-a" type="text" placeholder="Primeira alternativa" />
+                </label>
+
+                <label class="teacher-field">
+                  <span>Alternativa b)</span>
+                  <input id="teacher-option-b" type="text" placeholder="Segunda alternativa" />
+                </label>
+
+                <label class="teacher-field">
+                  <span>Alternativa c)</span>
+                  <input id="teacher-option-c" type="text" placeholder="Terceira alternativa" />
+                </label>
+
+                <label class="teacher-field">
+                  <span>Alternativa d)</span>
+                  <input id="teacher-option-d" type="text" placeholder="Quarta alternativa" />
+                </label>
+
+                <label class="teacher-field">
+                  <span>Resposta correta</span>
+                  <select id="teacher-answer">
+                    <option value="0">a)</option>
+                    <option value="1">b)</option>
+                    <option value="2">c)</option>
+                    <option value="3">d)</option>
+                  </select>
+                </label>
+
+                <label class="teacher-field teacher-field--full">
+                  <span>Explicação</span>
+                  <textarea
+                    id="teacher-explanation"
+                    rows="3"
+                    placeholder="Explique por que a resposta está certa"
+                  ></textarea>
+                </label>
+              </div>
+
+              <div class="teacher-actions">
+                <button id="teacher-add-button" class="menu-button menu-button--compact" type="button">
+                  Adicionar Pergunta
+                </button>
+              </div>
+
+              <p id="teacher-status" class="teacher-status" aria-live="polite"></p>
+            </section>
+
+            <section
+              class="teacher-panel teacher-panel--bank teacher-bank"
+              aria-labelledby="teacher-bank-title"
+            >
+              <div class="teacher-bank__header">
+                <h3 id="teacher-bank-title">Questões personalizadas</h3>
+                <p class="teacher-bank__note">As perguntas cadastradas entram na próxima nova partida.</p>
+              </div>
+              <div id="teacher-custom-list" class="teacher-custom-list"></div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <input id="question-import-input" type="file" accept=".json,application/json" hidden />
     </div>
 
-    <input id="question-import-input" type="file" accept=".json,application/json" hidden>
-  </div>
-
-  <script src="./script.js"></script>
-  <script src="./viewport-fit.js"></script>
-</body>
+    <script src="./script.js"></script>
+    <script src="./viewport-fit.js"></script>
+  </body>
 </html>

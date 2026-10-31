@@ -3,9 +3,5 @@ dist/
 output/
 apps/quiz-portugues/script.js
 apps/quiz-portugues/viewport-fit.js
-apps/quiz-portugues/style.css
-apps/quiz-portugues/index.html
 apps/trilha-das-habilidades/script.js
 apps/trilha-das-habilidades/game-data.js
-apps/trilha-das-habilidades/style.css
-apps/trilha-das-habilidades/index.html
