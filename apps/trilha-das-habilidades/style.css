@@ -4909,7 +4909,7 @@ body[data-theme="dark"] .start-screen {
 }
 .start-card,
 body[data-theme="dark"] .start-card {
-  width: min(1080px, 100%);
+  width: min(94vw, 1760px);
   min-height: 0;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto auto auto;
@@ -6943,5 +6943,32 @@ body[data-theme="dark"] .moon::after {
 @media (min-width: 981px) {
   .app {
     grid-template-columns: minmax(0, 1fr) clamp(240px, 20vw, 360px);
+  }
+}
+
+@media (min-width: 981px) {
+  .start-screen {
+    padding: clamp(16px, 2vw, 40px);
+    overflow-y: auto;
+  }
+
+  .start-card,
+  body[data-theme="dark"] .start-card {
+    width: min(100%, 1760px);
+    min-height: min(84dvh, 900px);
+    max-height: none;
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    column-gap: clamp(20px, 4vw, 72px);
+    row-gap: clamp(10px, 2dvh, 20px);
+    padding: clamp(20px, 3vw, 48px);
+  }
+
+  .start-card__scene,
+  body[data-theme="dark"] .start-card__scene {
+    width: 100%;
+    height: clamp(220px, 58dvh, 640px);
+    max-height: 100%;
+    aspect-ratio: auto;
+    align-self: center;
   }
 }
