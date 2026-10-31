@@ -617,7 +617,7 @@ function rollDice() {
       to: state.position,
       time: new Date().toISOString()
     });
-    announce(`Dado caiu em ${roll}. Caravana avançou para a casa ${state.position}.`);
+    announce(`O dado caiu em ${roll}. Você avançou para a casa ${state.position}.`);
 
     renderAll();
     const travelMs = animateCaravan();
@@ -714,15 +714,15 @@ function answerQuestion(selectedIndex) {
       state.answered.add(state.activeQuestionIndex);
     }
 
-    feedbackText.textContent = `Acertou! ${question.explanation} Você permanece na casa ${state.position}.`;
+    feedbackText.textContent = `Resposta correta. ${question.explanation} Você permanece na casa ${state.position}.`;
     playTone(523.25, 0.12, "triangle", 0.035);
     window.setTimeout(() => playTone(659.25, 0.14, "triangle", 0.03), 110);
-    setStatus("Resposta correta", `Você ficou na casa ${state.position}. Agora pode jogar o dado novamente.`);
+    setStatus("Resposta correta", `Você continua na casa ${state.position}. Jogue o dado para avançar.`);
   } else {
     state.position = state.previousPosition;
     feedbackText.textContent = `Resposta correta: ${question.options[question.answer]}. ${question.explanation} Você volta para a casa ${state.position}.`;
     playTone(261.63, 0.24, "triangle", 0.02);
-    setStatus("Voltou uma jogada", `Você retornou para a casa ${state.position}. Jogue de novo para tentar avançar.`);
+    setStatus("Resposta incorreta", `Você voltou para a casa ${state.position}. Jogue o dado para tentar novamente.`);
   }
 
   state.history.push({
@@ -766,7 +766,7 @@ function getRoundSummary(history) {
 
 function showVictory() {
   const { correct, attempts, accuracy } = getRoundSummary(state.history);
-  victorySummary.textContent = `Você percorreu as ${getTrack().length} casas. Respondeu ${attempts} pergunta${attempts === 1 ? "" : "s"} e acertou ${correct}: ${accuracy}% de acertos nas respostas desta partida.`;
+  victorySummary.textContent = `Você concluiu as ${getTrack().length} casas e acertou ${correct} de ${attempts} respostas (${accuracy}%).`;
   skillSummary.innerHTML = "";
 
   skills.forEach((skill) => {
@@ -787,7 +787,7 @@ function showVictory() {
   victoryModal.hidden = false;
   document.querySelector("main.app").inert = true;
   victoryCard.focus();
-  speak(`Chegada alcançada. ${victorySummary.textContent}`);
+  speak(`Trilha concluída. ${victorySummary.textContent}`);
 }
 
 function hideVictory() {
@@ -827,7 +827,7 @@ function restartGame() {
   gameSettingsButton.disabled = !state.started;
   modal.hidden = true;
   hideVictory();
-  setStatus("Pronto para começar", "Lance o dado para começar uma nova viagem.");
+  setStatus("Pronto para jogar", "Lance o dado para iniciar a partida.");
   renderAll();
 }
 
