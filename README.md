@@ -34,8 +34,7 @@ posições do tabuleiro. O ZIP de origem está preservado na pasta irmã `06 - �
 
 As quatro ilustrações principais são SVG editáveis. A Trilha também usa uma composição horizontal
 própria em telas estreitas, para manter a paisagem inteira visível; o favicon completa o conjunto.
-Os créditos e os termos de uso continuam válidos. A edição não publica automaticamente o site em
-nenhum serviço.
+Os créditos e os termos de uso continuam válidos.
 
 ## Rotas publicadas
 
@@ -85,13 +84,16 @@ Consulte também o arquivo [LICENSE](LICENSE). Em caso de dúvida, escreva para
 ## Desenvolvimento
 
 ```bash
-npm install
+npm ci
 npx playwright install chromium
 npm run serve
 ```
 
 O portal local fica disponível em `http://127.0.0.1:4180/`, em uma porta separada do Língua Quest.
 No Windows, `Iniciar.cmd` abre o navegador e inicia o servidor usando o Node.js instalado.
+
+O site é estático; `npm run serve` não precisa das dependências de desenvolvimento. Elas são usadas
+para validar, formatar e testar o projeto. `npm ci` instala as versões registradas no `package-lock.json`.
 
 ## Validação e build
 
@@ -101,8 +103,10 @@ npm run build:static
 npm run preview
 ```
 
-O build estático é gerado em `dist/`. O workflow `.github/workflows/pages.yml` publica essa pasta no
-GitHub Pages quando há alterações na branch `main`.
+O build estático é gerado em `dist/`. Cada atualização enviada à branch `main` executa as verificações
+e o build do workflow `.github/workflows/pages.yml`, que publica o resultado no GitHub Pages. O projeto
+Cloudflare Pages também acompanha as atualizações do repositório. `npm run build:static` apenas gera o
+site localmente; não publica por conta própria.
 
 ## Qualidade
 
