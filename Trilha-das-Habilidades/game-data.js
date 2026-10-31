@@ -43,7 +43,7 @@ window.TRILHA_DATA = {
     { x: 87.4, y: 84.5, rotate: -8 }
   ],
   startPosition: { x: 7.9, y: 80.7 },
-  tileColors: ["#ef476f", "#ffd166", "#43aa8b", "#4cc9f0", "#b565c0", "#f3722c"],
+  tileColors: ["#d78b78", "#e6c477", "#8eb69b", "#8dbdc5", "#baa1c0", "#dca079"],
   questions: [
     {
       skill: "Leitura e interpretação",

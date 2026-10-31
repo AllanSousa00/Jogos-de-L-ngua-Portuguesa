@@ -122,6 +122,12 @@ const settingsBackButton = document.querySelector("#settings-back-button");
 const musicToggleButton = document.querySelector("#music-toggle-button");
 const musicLabel = document.querySelector("#music-label");
 const musicIcon = document.querySelector("#music-icon");
+const quizVolume = document.querySelector("#quiz-volume");
+const quizVolumeValue = document.querySelector("#quiz-volume-value");
+const quizSoundButton = document.querySelector("#quiz-sound-button");
+const quizProgress = document.querySelector("#quiz-progress");
+const quizProgressFill = document.querySelector("#quiz-progress-fill");
+const themeToggleIcon = document.querySelector("#theme-toggle-button .icon-glyph");
 const themeToggleButton = document.querySelector("#theme-toggle-button");
 const themeToggleLabel = document.querySelector("#theme-toggle-label");
 const shuffleQuestionsButton = document.querySelector("#shuffle-questions-button");
@@ -180,6 +186,7 @@ const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 const state = {
   theme: "light",
   musicEnabled: true,
+  audioVolume: 0.7,
   shuffleQuestions: true,
   shuffleOptions: true,
   currentScreen: "home",
@@ -199,14 +206,12 @@ const runtime = {
 const iconMarkup = {
   musicOn: `
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="10.5" cy="12" r="7.3" stroke="currentColor" stroke-width="2.3"></circle>
-      <path d="m6.5 11.9 3.2 3.3 5.7-7" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M4 9h4l5-4v14l-5-4H4ZM16 8q5 4 0 8m3-11q8 7 0 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
     </svg>
   `,
   musicOff: `
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="2.3"></circle>
-      <path d="M7 7 17 17" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"></path>
+      <path d="M4 9h4l5-4v14l-5-4H4Zm13 1 5 5m0-5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
     </svg>
   `
 };
@@ -218,18 +223,22 @@ class AudioEngine {
     this.musicInterval = 0;
     this.stepIndex = 0;
     this.isPlaying = false;
+    this.voices = new Set();
+    this.playRequest = 0;
+    this.volume = 0.7;
+    // Duas frases de oito compassos, com pausas para não competir com a leitura.
     this.sequence = [
-      { frequency: 523.25, duration: 0.24 },
-      { frequency: 659.25, duration: 0.2 },
-      { frequency: 783.99, duration: 0.28 },
-      { frequency: 659.25, duration: 0.18 },
-      null,
-      { frequency: 698.46, duration: 0.24 },
-      { frequency: 783.99, duration: 0.22 },
-      { frequency: 1046.5, duration: 0.3 },
-      null
+      523.25, 659.25, 783.99, 0, 659.25, 587.33, 523.25, 0,
+      440, 523.25, 659.25, 0, 587.33, 523.25, 493.88, 0,
+      349.23, 440, 523.25, 0, 659.25, 587.33, 523.25, 0,
+      392, 493.88, 587.33, 0, 523.25, 493.88, 392, 0,
+      659.25, 783.99, 880, 0, 783.99, 659.25, 587.33, 0,
+      523.25, 659.25, 783.99, 0, 659.25, 523.25, 440, 0,
+      349.23, 523.25, 698.46, 0, 659.25, 587.33, 523.25, 0,
+      392, 493.88, 587.33, 0, 659.25, 587.33, 523.25, 0
     ];
-    this.stepMs = 330;
+    this.bass = [130.81, 110, 87.31, 98, 130.81, 110, 87.31, 98];
+    this.stepMs = 410;
   }
 
   ensureContext() {
@@ -244,7 +253,7 @@ class AudioEngine {
 
     this.context = new AudioContextClass();
     this.masterGain = this.context.createGain();
-    this.masterGain.gain.value = 0.05;
+    this.masterGain.gain.value = 0.18 * this.volume;
     this.masterGain.connect(this.context.destination);
   }
 
@@ -266,6 +275,14 @@ class AudioEngine {
     return true;
   }
 
+  setVolume(value) {
+    const volume = Number(value);
+    this.volume = Number.isFinite(volume) ? Math.max(0, Math.min(1, volume)) : 0.7;
+    if (this.context && this.masterGain) {
+      this.masterGain.gain.setTargetAtTime(0.18 * this.volume, this.context.currentTime, 0.03);
+    }
+  }
+
   playTone(frequency, duration, type = "triangle", volume = 0.08, delay = 0) {
     if (!this.context || !this.masterGain) {
       return;
@@ -283,8 +300,15 @@ class AudioEngine {
 
     oscillator.connect(gainNode);
     gainNode.connect(this.masterGain);
+    const voice = { oscillator, gain: gainNode };
+    this.voices.add(voice);
     oscillator.start(startAt);
     oscillator.stop(startAt + duration + 0.03);
+    oscillator.onended = () => {
+      oscillator.disconnect();
+      gainNode.disconnect();
+      this.voices.delete(voice);
+    };
   }
 
   playMusicStep() {
@@ -292,13 +316,18 @@ class AudioEngine {
       return;
     }
 
-    const note = this.sequence[this.stepIndex];
+    const step = this.stepIndex;
+    const note = this.sequence[step];
     this.stepIndex = (this.stepIndex + 1) % this.sequence.length;
-    if (!note) {
-      return;
+    if (step % 8 === 0) {
+      const root = this.bass[Math.floor(step / 8)];
+      this.playTone(root, 2.4, "sine", 0.07);
+      this.playTone(root * 1.5, 2.1, "sine", 0.025, 0.03);
     }
-
-    this.playTone(note.frequency, note.duration, "triangle", 0.095);
+    if (note) {
+      this.playTone(note, 0.65, "triangle", 0.065);
+      this.playTone(note * 2, 0.28, "sine", 0.016, 0.012);
+    }
   }
 
   async syncBackground(enabled) {
@@ -307,8 +336,9 @@ class AudioEngine {
       return;
     }
 
+    const request = ++this.playRequest;
     const ready = await this.resumeContext();
-    if (!ready || this.isPlaying) {
+    if (!ready || this.isPlaying || request !== this.playRequest) {
       return;
     }
 
@@ -319,12 +349,21 @@ class AudioEngine {
   }
 
   stopBackground() {
+    this.playRequest += 1;
     if (this.musicInterval) {
       window.clearInterval(this.musicInterval);
       this.musicInterval = 0;
     }
 
     this.isPlaying = false;
+    if (this.context) {
+      const now = this.context.currentTime;
+      for (const voice of this.voices) {
+        voice.gain.gain.cancelScheduledValues(now);
+        voice.gain.gain.setTargetAtTime(0.0001, now, 0.01);
+        voice.oscillator.stop(now + 0.05);
+      }
+    }
   }
 
   async playEffect(type) {
@@ -343,8 +382,8 @@ class AudioEngine {
       return;
     }
 
-    this.playTone(220, 0.18, "sawtooth", 0.1);
-    this.playTone(180, 0.2, "sawtooth", 0.08, 0.08);
+    this.playTone(293.66, 0.2, "triangle", 0.09);
+    this.playTone(261.63, 0.3, "sine", 0.08, 0.14);
   }
 }
 
@@ -523,6 +562,7 @@ function buildPersistedState() {
     version: 2,
     theme: state.theme,
     musicEnabled: state.musicEnabled,
+    audioVolume: state.audioVolume,
     shuffleQuestions: state.shuffleQuestions,
     shuffleOptions: state.shuffleOptions,
     currentScreen: state.currentScreen,
@@ -556,6 +596,9 @@ function loadPersistedState() {
 
     if (typeof parsedState.musicEnabled === "boolean") {
       state.musicEnabled = parsedState.musicEnabled;
+    }
+    if (typeof parsedState.audioVolume === "number" && Number.isFinite(parsedState.audioVolume)) {
+      state.audioVolume = Math.max(0, Math.min(1, parsedState.audioVolume));
     }
 
     if (typeof parsedState.shuffleQuestions === "boolean") {
@@ -592,7 +635,7 @@ function loadPersistedState() {
 }
 
 function getThemeColor() {
-  return state.theme === "light" ? "#15388d" : "#050505";
+  return state.theme === "light" ? "#f3ead5" : "#101e2a";
 }
 
 function focusScreenAnchor(name) {
@@ -624,6 +667,7 @@ function updateDocumentTitle() {
 function showScreen(name, options = {}) {
   screens.forEach((screen, key) => {
     screen.classList.toggle("is-active", key === name);
+    if (key === name) screen.scrollTop = 0;
   });
 
   state.currentScreen = name;
@@ -643,7 +687,8 @@ function showScreen(name, options = {}) {
 function applyTheme() {
   document.body.dataset.theme = state.theme;
   themeToggleButton.setAttribute("aria-pressed", String(state.theme === "dark"));
-  themeToggleLabel.textContent = state.theme === "light" ? "Ativar Modo Dark" : "Ativar Modo Claro";
+  themeToggleLabel.textContent = "Tema escuro";
+  themeToggleIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
 
   if (themeColorMeta) {
     themeColorMeta.setAttribute("content", getThemeColor());
@@ -654,6 +699,14 @@ function applyMusicUI() {
   musicToggleButton.setAttribute("aria-pressed", String(state.musicEnabled));
   musicLabel.textContent = state.musicEnabled ? "Música Ligada" : "Música Desligada";
   musicIcon.innerHTML = state.musicEnabled ? iconMarkup.musicOn : iconMarkup.musicOff;
+  quizSoundButton.innerHTML = state.musicEnabled ? iconMarkup.musicOn : iconMarkup.musicOff;
+  quizSoundButton.setAttribute("aria-label", state.musicEnabled ? "Silenciar som" : "Ativar som");
+  quizSoundButton.setAttribute("aria-pressed", String(!state.musicEnabled));
+  const volumePercent = Math.round(state.audioVolume * 100);
+  quizVolume.value = String(volumePercent);
+  quizVolume.setAttribute("aria-valuetext", `${volumePercent}%`);
+  quizVolumeValue.textContent = `${volumePercent}%`;
+  audioEngine.setVolume(state.audioVolume);
 }
 
 function supportsFullscreen() {
@@ -668,22 +721,14 @@ function updateFullscreenUI() {
   const supported = supportsFullscreen();
   fullscreenButton.disabled = !supported;
   fullscreenButton.setAttribute("aria-pressed", String(isFullscreenActive()));
-  fullscreenLabel.textContent = supported
-    ? isFullscreenActive()
-      ? "Sair da Tela Cheia"
-      : "Entrar em Tela Cheia"
-    : "Tela Cheia Indisponível";
+  fullscreenLabel.textContent = supported ? "Tela cheia" : "Tela cheia indisponível";
 }
 
 function updateShuffleUI() {
   shuffleQuestionsButton.setAttribute("aria-pressed", String(state.shuffleQuestions));
   shuffleOptionsButton.setAttribute("aria-pressed", String(state.shuffleOptions));
-  shuffleQuestionsLabel.textContent = state.shuffleQuestions
-    ? "Perguntas Embaralhadas"
-    : "Perguntas em Ordem";
-  shuffleOptionsLabel.textContent = state.shuffleOptions
-    ? "Alternativas Embaralhadas"
-    : "Alternativas em Ordem";
+  shuffleQuestionsLabel.textContent = "Embaralhar perguntas";
+  shuffleOptionsLabel.textContent = "Embaralhar alternativas";
 }
 
 function updateHomeUI() {
@@ -802,6 +847,7 @@ function resetFeedbackPanel() {
 function buildOptionButton(option, index) {
   const button = document.createElement("button");
   const marker = document.createElement("span");
+  const stamp = document.createElement("span");
   const label = document.createElement("span");
 
   button.type = "button";
@@ -810,6 +856,10 @@ function buildOptionButton(option, index) {
 
   marker.className = "option-button__marker";
   marker.textContent = `${optionLetters[index]})`;
+  stamp.className = "option-button__stamp";
+  stamp.setAttribute("aria-hidden", "true");
+  stamp.hidden = true;
+  marker.appendChild(stamp);
 
   label.className = "menu-button__label";
   label.textContent = option;
@@ -818,6 +868,15 @@ function buildOptionButton(option, index) {
   button.addEventListener("click", () => handleAnswer(index));
 
   return button;
+}
+
+function renderQuizProgress() {
+  const total = state.sessionQuestions.length;
+  const answered = getAnsweredCount();
+  quizProgress.setAttribute("aria-valuemax", String(total));
+  quizProgress.setAttribute("aria-valuenow", String(answered));
+  quizProgress.setAttribute("aria-valuetext", `${answered} de ${total} perguntas respondidas`);
+  quizProgressFill.style.width = `${total ? answered / total * 100 : 0}%`;
 }
 
 function revealAnswerState(selectedIndex) {
@@ -835,6 +894,15 @@ function revealAnswerState(selectedIndex) {
     button.classList.toggle("is-correct", index === question.answer);
     button.classList.toggle("is-wrong", index === selectedIndex && !isCorrect);
     button.classList.toggle("is-muted", index !== selectedIndex && index !== question.answer);
+    const stamp = button.querySelector(".option-button__stamp");
+    const correctOption = index === question.answer;
+    const wrongSelection = index === selectedIndex && !isCorrect;
+    stamp.hidden = !correctOption && !wrongSelection;
+    stamp.textContent = correctOption ? "✓" : wrongSelection ? "×" : "";
+    const status = correctOption
+      ? index === selectedIndex ? "Sua resposta, correta" : "Alternativa correta"
+      : wrongSelection ? "Sua resposta, incorreta" : "Não selecionada";
+    button.setAttribute("aria-label", `${optionLetters[index]}) ${question.options[index]}. ${status}.`);
   });
 
   feedbackPanel.hidden = false;
@@ -846,6 +914,7 @@ function revealAnswerState(selectedIndex) {
 
   nextButton.hidden = false;
   nextButton.disabled = false;
+  renderQuizProgress();
 }
 
 function renderQuestion() {
@@ -857,6 +926,7 @@ function renderQuestion() {
 
   questionCounter.textContent = `Pergunta ${state.currentQuestionIndex + 1} de ${state.sessionQuestions.length}`;
   questionText.textContent = question.prompt;
+  renderQuizProgress();
   optionsList.innerHTML = "";
 
   question.options.forEach((option, index) => {
@@ -1206,6 +1276,13 @@ function getOpenModal() {
   return null;
 }
 
+function syncModalBackground() {
+  const active = runtime.activeModal;
+  screens.forEach((screen) => { screen.inert = Boolean(active); });
+  teacherModal.inert = Boolean(active && active !== teacherModal);
+  confirmModal.inert = Boolean(active && active !== confirmModal);
+}
+
 function openModal(modal, focusTarget) {
   runtime.activeModal = modal;
   runtime.modalRestoreFocus.set(
@@ -1214,9 +1291,10 @@ function openModal(modal, focusTarget) {
   );
   modal.hidden = false;
   document.body.classList.add("is-modal-open");
+  syncModalBackground();
 
   window.requestAnimationFrame(() => {
-    if (focusTarget instanceof HTMLElement) {
+    if (runtime.activeModal === modal && focusTarget instanceof HTMLElement) {
       focusTarget.focus({ preventScroll: true });
     }
   });
@@ -1229,6 +1307,7 @@ function closeModal(modal) {
   runtime.modalRestoreFocus.delete(modal);
   runtime.activeModal = !confirmModal.hidden ? confirmModal : !teacherModal.hidden ? teacherModal : null;
   document.body.classList.toggle("is-modal-open", Boolean(runtime.activeModal));
+  syncModalBackground();
 
   if (restoreFocus) {
     restoreFocus.focus({ preventScroll: true });
@@ -1331,6 +1410,9 @@ function handleModalKeyboard(event, modal) {
 }
 
 function handleQuizKeyboard(event) {
+  if (event.target?.closest?.("#quiz-sound-button")) {
+    return;
+  }
   if (state.currentScreen !== "quiz" || state.sessionQuestions.length === 0) {
     return;
   }
@@ -1362,6 +1444,12 @@ function handleGlobalKeydown(event) {
 
   if (openModalElement) {
     handleModalKeyboard(event, openModalElement);
+    return;
+  }
+
+  if (state.currentScreen === "settings" && event.key === "Escape") {
+    event.preventDefault();
+    showScreen("home");
     return;
   }
 
@@ -1433,6 +1521,12 @@ function setupEventListeners() {
   settingsBackButton.addEventListener("click", goHome);
 
   musicToggleButton.addEventListener("click", toggleMusic);
+  quizSoundButton.addEventListener("click", toggleMusic);
+  quizVolume.addEventListener("input", () => {
+    state.audioVolume = Math.max(0, Math.min(1, Number(quizVolume.value) / 100));
+    applyMusicUI();
+    persistState();
+  });
   themeToggleButton.addEventListener("click", toggleTheme);
   shuffleQuestionsButton.addEventListener("click", toggleShuffleQuestions);
   shuffleOptionsButton.addEventListener("click", toggleShuffleOptions);

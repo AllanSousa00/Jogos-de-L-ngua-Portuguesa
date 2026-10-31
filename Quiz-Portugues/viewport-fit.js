@@ -1,90 +1,25 @@
 "use strict";
 
-(function bootstrapViewportPatch() {
+// O layout usa CSS responsivo, sem encolher textos ou controles. Ao mudar a
+// área visível (teclado virtual, rotação ou tela cheia), conserva o campo em uso.
+(function preserveVisibleFocus() {
   const appRoot = document.querySelector("#app-root");
-
-  if (!(appRoot instanceof HTMLElement)) {
-    return;
-  }
-
-  let fitFrame = 0;
-
-  function getOpenModal() {
-    return document.querySelector(".modal-backdrop:not([hidden])");
-  }
-
-  function fitElementToViewport(element, cssVariableName, { fitHeight = true } = {}) {
-    if (!(element instanceof HTMLElement)) {
-      return;
-    }
-
-    const container = element.parentElement;
-    if (!(container instanceof HTMLElement)) {
-      return;
-    }
-
-    element.style.setProperty(cssVariableName, "1");
-
-    const availableWidth = Math.max(container.clientWidth - 6, 0);
-    const availableHeight = Math.max(container.clientHeight - 6, 0);
-    const naturalWidth = Math.max(element.scrollWidth, element.offsetWidth);
-    const naturalHeight = Math.max(element.scrollHeight, element.offsetHeight);
-
-    if (!availableWidth || !availableHeight || !naturalWidth || !naturalHeight) {
-      return;
-    }
-
-    const heightScale = fitHeight ? availableHeight / naturalHeight : 1;
-    const scale = Math.min(1, availableWidth / naturalWidth, heightScale);
-    const safeScale = Number.isFinite(scale) && scale > 0 ? scale : 1;
-    element.style.setProperty(cssVariableName, safeScale.toFixed(4));
-  }
-
-  function fitInterface() {
-    const activeScreenShell = document.querySelector(".screen.is-active .screen-shell");
-    fitElementToViewport(activeScreenShell, "--screen-scale");
-
-    const openModal = getOpenModal();
-    if (openModal) {
-      fitElementToViewport(openModal.querySelector(".modal-card"), "--modal-scale", {
-        fitHeight: false
-      });
-    }
-  }
-
-  function queueFitInterface() {
-    window.cancelAnimationFrame(fitFrame);
-    fitFrame = window.requestAnimationFrame(() => {
-      fitFrame = window.requestAnimationFrame(fitInterface);
+  if (!(appRoot instanceof HTMLElement)) return;
+  let frame = 0;
+  function revealFocusedControl() {
+    window.cancelAnimationFrame(frame);
+    frame = window.requestAnimationFrame(() => {
+      const focused = document.activeElement;
+      if (!(focused instanceof HTMLElement) || !appRoot.contains(focused)) return;
+      if (!focused.matches("button, input, textarea, select")) return;
+      const rect = focused.getBoundingClientRect();
+      const availableHeight = window.visualViewport?.height || window.innerHeight;
+      if (rect.top < 0 || rect.bottom > availableHeight) {
+        focused.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "auto" });
+      }
     });
   }
-
-  const observer = new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      if (mutation.type === "childList" || mutation.type === "characterData") {
-        queueFitInterface();
-        return;
-      }
-
-      if (mutation.type === "attributes") {
-        queueFitInterface();
-        return;
-      }
-    }
-  });
-
-  observer.observe(appRoot, {
-    subtree: true,
-    childList: true,
-    characterData: true,
-    attributes: true,
-    attributeFilter: ["class", "hidden", "style", "aria-hidden"]
-  });
-
-  window.addEventListener("resize", queueFitInterface);
-  window.addEventListener("orientationchange", queueFitInterface);
-  document.addEventListener("fullscreenchange", queueFitInterface);
-  window.addEventListener("load", queueFitInterface);
-
-  queueFitInterface();
+  window.addEventListener("resize", revealFocusedControl);
+  window.visualViewport?.addEventListener("resize", revealFocusedControl);
+  document.addEventListener("fullscreenchange", revealFocusedControl);
 })();
